@@ -7,7 +7,7 @@ if [ -z "$changed_files" ]; then
   exit 0
 fi
 
-LINT_STAGED_EXTENSIONS="js|ts|vue|css|scss"
+LINT_STAGED_EXTENSIONS="js|ts|vue|css|scss|md"
 
 if echo "$changed_files" | grep -qE "\.($LINT_STAGED_EXTENSIONS)$"; then
   echo "Found files for lint-staged. Running checks..."
