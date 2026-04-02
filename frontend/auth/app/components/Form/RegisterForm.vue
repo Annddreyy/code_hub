@@ -1,0 +1,193 @@
+<template>
+  <form
+    id="register-form"
+    @submit.prevent="handleSubmit"
+  >
+    <div class="field">
+      <label>Полное имя</label>
+      <div class="field__wrap">
+        <span class="field__ico">👤</span>
+        <input
+          type="text"
+          placeholder="Alex Developer"
+          v-model="name"
+        />
+      </div>
+    </div>
+    <div class="field">
+      <label>Email</label>
+      <div class="field__wrap">
+        <span class="field__ico">📧</span>
+        <input
+          type="email"
+          placeholder="you@example.com"
+          v-model="email"
+        />
+      </div>
+    </div>
+    <div class="field">
+      <label>Пароль</label>
+      <div class="field__wrap">
+        <span class="field__ico">🔒</span>
+        <input
+          id="pw-input"
+          type="password"
+          placeholder="Min 8 characters"
+          v-model="password"
+          @input="checkPassword"
+        />
+      </div>
+      <div
+        v-if="showStrength"
+        class="pw-strength"
+      >
+        <div class="pw-bars">
+          <div
+            v-for="(_, index) in 4"
+            :key="index"
+            class="pw-bar"
+            :class="index < score ? strengthClass : ''"
+          />
+        </div>
+
+        <div
+          class="pw-label"
+          :style="{ color: labelColor }"
+        >
+          {{ label }}
+        </div>
+      </div>
+    </div>
+    <button
+      class="submit-btn"
+      type="submit"
+      id="submit-btn"
+    >
+      <span id="btn-text">Создать аккаунт →</span>
+      <div
+        class="submit-btn__spinner"
+        id="btn-spinner"
+      ></div>
+    </button>
+    <div class="terms">
+      Авторизуясь, вы соглашаетесь с нашими <a href="#">Условиями</a> и
+      <a href="#">Политикой конфиденциальности</a>
+    </div>
+  </form>
+</template>
+
+<style lang="scss" scoped>
+@use '@/styles/forms.scss';
+</style>
+
+<script setup lang="ts">
+const name = ref('');
+const email = ref('');
+const password = ref('');
+
+const showStrength = ref(false);
+const score = ref(0);
+
+const checkPassword = () => {
+  showStrength.value = true;
+
+  const len = password.value.length >= 8;
+  const upLetters = /[A-Z]/.test(password.value);
+  const digits = /[0-9]/.test(password.value);
+  const specialSymbols = /[^A-Za-z0-9]/.test(password.value);
+
+  score.value = [len, upLetters, digits, specialSymbols].filter(Boolean).length;
+};
+
+const strengthClass = computed(() => {
+  if (score.value <= 1) return 'weak';
+  if (score.value <= 3) return 'medium';
+  return 'strong';
+});
+
+const label = computed(() => {
+  return ['', 'Weak', 'Fair', 'Good', 'Strong'][score.value] || '';
+});
+
+const labelColor = computed(() => {
+  if (score.value <= 1) return 'var(--red)';
+  if (score.value <= 3) return 'var(--yellow)';
+  return 'var(--green)';
+});
+
+const handleSubmit = () => {
+  console.log({
+    name: name.value,
+    email: email.value,
+    password: password.value,
+  });
+};
+</script>
+
+<style lang="scss" scoped>
+.pw-strength {
+  margin-top: 7px;
+
+  .pw-bars {
+    display: flex;
+    gap: 3px;
+
+    margin-bottom: 4px;
+
+    .pw-bar {
+      flex: 1;
+      height: 3px;
+
+      background: var(--b1);
+      border-radius: 2px;
+      transition: background 0.3s;
+
+      &.weak {
+        background: var(--red);
+      }
+
+      &.medium {
+        background: var(--yellow);
+      }
+
+      &.strong {
+        background: var(--green);
+      }
+    }
+  }
+
+  .pw-label {
+    font-family: var(--spaced);
+    font-size: 12px;
+    color: var(--muted);
+  }
+}
+
+@media (max-width: 1220px) {
+  .pw-strength {
+    margin-top: 6px;
+
+    .pw-bars {
+      margin-bottom: 3px;
+
+      .pw-bar {
+        height: 2px;
+      }
+    }
+
+    .pw-lbl {
+      font-size: 8px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .pw-strength {
+    .pw-bars {
+      .pw-bar {
+        height: 3px;
+      }
+    }
+  }
+}
+</style>
