@@ -70,25 +70,25 @@
     &:first-child {
       margin-left: 0;
     }
+  }
 
-    &__text {
-      flex: 1;
+  &__text {
+    flex: 1;
 
-      font-family: var(--spaced);
-      font-size: 9px;
-      line-height: 1.4;
-      color: var(--muted);
+    font-family: var(--spaced);
+    font-size: 9px;
+    line-height: 1.4;
+    color: var(--muted);
 
-      strong {
-        color: var(--text);
-      }
+    strong {
+      color: var(--text);
     }
   }
 }
 
 @media (max-width: 768px) {
-    .social-proof {
-        display: flex;
-    }
+  .social-proof {
+    display: flex;
+  }
 }
 </style>

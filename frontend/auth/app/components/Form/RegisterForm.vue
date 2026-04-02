@@ -61,13 +61,9 @@
     <button
       class="submit-btn"
       type="submit"
-      id="submit-btn"
     >
-      <span id="btn-text">Создать аккаунт →</span>
-      <div
-        class="submit-btn__spinner"
-        id="btn-spinner"
-      ></div>
+      <span>Создать аккаунт →</span>
+      <div class="submit-btn__spinner" />
     </button>
     <div class="terms">
       Авторизуясь, вы соглашаетесь с нашими <a href="#">Условиями</a> и
@@ -116,11 +112,7 @@ const labelColor = computed(() => {
 });
 
 const handleSubmit = () => {
-  console.log({
-    name: name.value,
-    email: email.value,
-    password: password.value,
-  });
+  console.log('Оправлено! (Лог для теста)');
 };
 </script>
 
@@ -175,7 +167,7 @@ const handleSubmit = () => {
       }
     }
 
-    .pw-lbl {
+    .pw-label {
       font-size: 8px;
     }
   }

@@ -1,13 +1,14 @@
 <template>
   <form
     id="login-form"
-    onsubmit="handleSubmit(event)"
+    @submit.prevent="handleSubmit"
   >
     <div class="field">
       <label>Email</label>
       <div class="field__wrap">
         <span class="field__ico">📧</span>
         <input
+          v-model="email"
           type="email"
           placeholder="you@example.com"
           autocomplete="email"
@@ -22,6 +23,7 @@
       <div class="field__wrap">
         <span class="field__ico">🔒</span>
         <input
+          v-model="password"
           type="password"
           placeholder="••••••••"
           autocomplete="current-password"
@@ -31,13 +33,9 @@
     <button
       class="submit-btn"
       type="submit"
-      id="submit-btn"
     >
-      <span id="btn-text">Войти →</span>
-      <div
-        class="submit-btn__spinner"
-        id="btn-spinner"
-      ></div>
+      <span>Войти →</span>
+      <div class="submit-btn__spinner" />
     </button>
     <div class="terms">
       Авторизуясь, вы соглашаетесь с нашими <a href="#">Условиями</a> и
@@ -46,7 +44,14 @@
   </form>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const email = ref('');
+const password = ref('');
+
+const handleSubmit = () => {
+  console.log('Оправлено! (Лог для теста)');
+};
+</script>
 
 <style lang="scss" scoped>
 @use '@/styles/forms.scss';
