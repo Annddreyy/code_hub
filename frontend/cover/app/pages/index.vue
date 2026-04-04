@@ -10,18 +10,21 @@
         <span class="nav__bracket">/&gt;</span>
         <div class="nav__dot"></div>
       </NuxtLink>
-      <div class="nav__links">
-        <NuxtLink
-          v-for="link in links"
-          class="nav__link"
-          :to="link.link"
-        >
-          {{ link.title }}
-        </NuxtLink>
+      <div class="nav__links-wrapper">
+        <div class="nav__links">
+          <NuxtLink
+            v-for="link in links"
+            class="nav__link"
+            :to="link.link"
+          >
+            <span class="nav__icon">{{ link.icon }}</span>
+            <span class="nav__title">{{ link.title }}</span>
+          </NuxtLink>
+        </div>
       </div>
       <div class="nav__right">
-        <div class="nav__streak-pill">🔥 7-day streak</div>
-        <div class="nav__xp-pill">⚡ 2 480 XP</div>
+        <div class="nav__streak-pill">🔥 7<span class="hide-on-mobile">-day streak</span></div>
+        <div class="nav__xp-pill">⚡ 2 480<span class="hide-on-mobile"> XP</span></div>
         <div class="nav__notif-btn center">
           🔔
           <div class="nav__notif-dot" />
@@ -187,6 +190,100 @@ import { links } from '@/configs/header';
     background: linear-gradient(135deg, var(--blue), var(--purple));
 
     cursor: pointer;
+  }
+
+  &__icon {
+    display: none;
+  }
+}
+
+@media (max-width: 1220px) {
+  .nav {
+    &__streak-pill,
+    &__xp-pill {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .nav {
+    height: 48px;
+
+    &__logo {
+      font-size: 12px;
+      margin-right: 6px;
+    }
+
+    &__streak-pill,
+    &__xp-pill {
+      display: block;
+      font-size: 8px;
+    }
+
+    &__links-wrapper {
+      width: 100vw;
+
+      position: fixed;
+      bottom: calc(-100vh + 47px);
+      left: 0;
+
+      display: flex;
+      justify-content: center;
+
+      background: rgba(7, 9, 13, 1);
+    }
+
+    &__links {
+      max-width: 390px;
+
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    &__link {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+
+      width: 44px;
+      height: 44px;
+
+      border-radius: 4px;
+
+      &.router-link-active {
+        background-color: rgba(79, 156, 255, 0.08);
+        color: var(--blue);
+        border-bottom-color: transparent;
+      }
+    }
+
+    &__icon {
+      display: block;
+      font-size: 17px;
+    }
+
+    &__title {
+      font-size: 6px;
+    }
+
+    &__avatar {
+      width: 26px;
+      height: 26px;
+
+      font-size: 10px;
+    }
+
+    &__right {
+      gap: 4px;
+    }
+  }
+
+  .hide-on-mobile {
+    display: none;
   }
 }
 </style>

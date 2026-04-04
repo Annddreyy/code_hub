@@ -33,15 +33,17 @@
 }
 
 body {
+    height: 100vh;
+  position: relative;
   color: var(--text);
 
   font-family: var(--sans);
 }
 
 .center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @keyframes pulse {
