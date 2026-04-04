@@ -14,6 +14,7 @@
         <div class="nav__links">
           <NuxtLink
             v-for="link in links"
+            :key="link.id"
             class="nav__link"
             :to="link.link"
           >
