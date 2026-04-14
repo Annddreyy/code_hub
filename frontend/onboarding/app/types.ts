@@ -3,14 +3,14 @@ import type { Goal } from '@/entities/goal';
 import type { Language } from '@/entities/language';
 
 export enum Steps {
-  LANGUAGE = 'language',
-  EXPERIENCE = 'experience',
-  GOAL = 'goal',
-  ROADMAP = 'roadmap',
+    LANGUAGE = 'language',
+    EXPERIENCE = 'experience',
+    GOAL = 'goal',
+    ROADMAP = 'roadmap',
 }
 
 export type UserChoices = {
-  languages: Language[];
-  experienceLevels: ExperienceLevel[];
-  goals: Goal[];
+    languages: Language[];
+    experienceLevels: ExperienceLevel[];
+    goals: Goal[];
 };

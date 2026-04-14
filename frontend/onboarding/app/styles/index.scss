@@ -1,125 +1,125 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 :root {
-  --bg: #07090d;
-  --s1: #0d1117;
-  --s2: #161b22;
-  --s3: #1c2330;
-  --b1: rgba(255, 255, 255, 0.06);
-  --b2: rgba(255, 255, 255, 0.12);
-  --b3: rgba(255, 255, 255, 0.22);
-  --blue: #4f9cff;
-  --green: #3fb950;
-  --purple: #bc8cff;
-  --cyan: #39d4c8;
-  --orange: #ff8c42;
-  --red: #ff5c72;
-  --yellow: #e3b341;
-  --text: #e6edf3;
-  --text2: #c9d1d9;
-  --muted: #8b949e;
-  --dim: #484f58;
-  --sans: 'Syne', sans-serif;
-  --sm: 'Space Mono', monospace;
-  --mono: 'JetBrains Mono', monospace;
+    --bg: #07090d;
+    --s1: #0d1117;
+    --s2: #161b22;
+    --s3: #1c2330;
+    --b1: rgba(255, 255, 255, 0.06);
+    --b2: rgba(255, 255, 255, 0.12);
+    --b3: rgba(255, 255, 255, 0.22);
+    --blue: #4f9cff;
+    --green: #3fb950;
+    --purple: #bc8cff;
+    --cyan: #39d4c8;
+    --orange: #ff8c42;
+    --red: #ff5c72;
+    --yellow: #e3b341;
+    --text: #e6edf3;
+    --text2: #c9d1d9;
+    --muted: #8b949e;
+    --dim: #484f58;
+    --sans: 'Syne', sans-serif;
+    --sm: 'Space Mono', monospace;
+    --mono: 'JetBrains Mono', monospace;
 }
 
 html,
 body {
-  height: 100%;
+    height: 100%;
 }
 
 body {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
-  font-family: var(--sans);
-  color: var(--text);
+    font-family: var(--sans);
+    color: var(--text);
 
-  background: var(--bg);
-  overflow: hidden;
+    background: var(--bg);
+    overflow: hidden;
 }
 
 body::before {
-  position: fixed;
-  content: '';
+    position: fixed;
+    content: '';
 
-  background-image:
-    linear-gradient(var(--b1) 1px, transparent 1px),
-    linear-gradient(90deg, var(--b1) 1px, transparent 1px);
-  background-size: 48px 48px;
+    background-image:
+        linear-gradient(var(--b1) 1px, transparent 1px),
+        linear-gradient(90deg, var(--b1) 1px, transparent 1px);
+    background-size: 48px 48px;
 
-  inset: 0;
-  pointer-events: none;
+    inset: 0;
+    pointer-events: none;
 
-  z-index: 0;
+    z-index: 0;
 }
 
 @keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
+    0%,
+    100% {
+        opacity: 1;
+    }
 
-  50% {
-    opacity: 0.3;
-  }
+    50% {
+        opacity: 0.3;
+    }
 }
 
 @keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-  }
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.92);
-  }
+    from {
+        opacity: 0;
+        transform: scale(0.92);
+    }
 
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 @keyframes checkPop {
-  0% {
-    transform: scale(0);
-  }
+    0% {
+        transform: scale(0);
+    }
 
-  60% {
-    transform: scale(1.2);
-  }
+    60% {
+        transform: scale(1.2);
+    }
 
-  100% {
-    transform: scale(1);
-  }
+    100% {
+        transform: scale(1);
+    }
 }
 
 @keyframes slideL {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
 
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 @media (max-width: 768px) {

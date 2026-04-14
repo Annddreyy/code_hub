@@ -1,9 +1,9 @@
 <template>
-  <div class="roadmap">
-    <div class="roadmap__icon">{{ icon }}</div>
-    <div class="roadmap__title">{{ title }}</div>
-    <div class="roadmap__xp">⚡ {{ xp }} XP</div>
-  </div>
+    <div class="roadmap">
+        <div class="roadmap__icon">{{ icon }}</div>
+        <div class="roadmap__title">{{ title }}</div>
+        <div class="roadmap__xp">⚡ {{ xp }} XP</div>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -14,31 +14,31 @@ defineProps<Roadmap>();
 
 <style lang="scss" scoped>
 .roadmap {
-  padding: 14px;
+    padding: 14px;
 
-  text-align: center;
+    text-align: center;
 
-  border: 1px solid var(--b1);
-  border-radius: 10px;
-  background: var(--s2);
+    border: 1px solid var(--b1);
+    border-radius: 10px;
+    background: var(--s2);
 
-  &__icon {
-    margin-bottom: 6px;
+    &__icon {
+        margin-bottom: 6px;
 
-    font-size: 22px;
-  }
+        font-size: 22px;
+    }
 
-  &__title {
-    margin-bottom: 2px;
+    &__title {
+        margin-bottom: 2px;
 
-    font-size: 12px;
-    font-weight: 700;
-  }
+        font-size: 12px;
+        font-weight: 700;
+    }
 
-  &__xp {
-    font-family: var(--sm);
-    font-size: 9px;
-    color: var(--yellow);
-  }
+    &__xp {
+        font-family: var(--sm);
+        font-size: 9px;
+        color: var(--yellow);
+    }
 }
 </style>
