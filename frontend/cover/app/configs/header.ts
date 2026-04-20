@@ -16,13 +16,13 @@ export const links: Link[] = [
     id: '2',
     title: 'Курсы',
     icon: '📚',
-    link: '/cources',
+    link: '/courses',
   },
   {
     id: '3',
     title: 'Задачи',
     icon: '⚡',
-    link: '/tasks',
+    link: '/challenges',
   },
   {
     id: '4',
