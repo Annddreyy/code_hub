@@ -9,4 +9,15 @@ export default defineNuxtConfig({
   },
 
   modules: ['@nuxt/eslint'],
+
+  components: [{ path: '~/components' }],
+
+  //   hooks: {
+  //     'components:dirs'(dirs) {
+  //       console.log('Сканируемые директории:', dirs);
+  //     },
+  //     'components:extend'(components) {
+  //       console.log('Найдено компонентов:', components.length);
+  //     },
+  //   },
 });
