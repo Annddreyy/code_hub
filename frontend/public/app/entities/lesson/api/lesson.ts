@@ -507,7 +507,7 @@ const LESSON_FOR_TEST: Lesson = {
 			<em>главной оси</em>?
 		</div>
 		<div class="quiz__opts">
-			<div class="quiz__opt" @click="$emit('test', true)">
+			<div class="quiz__opt">
 				<span class="quiz__letter">A</span
 				><code
 					style="
@@ -520,7 +520,7 @@ const LESSON_FOR_TEST: Lesson = {
 					>align-items</code
 				>
 			</div>
-			<div class="quiz__opt" onclick="quiz(this, true)">
+			<div class="quiz__opt">
 				<span class="quiz__letter">B</span
 				><code
 					style="
@@ -533,7 +533,7 @@ const LESSON_FOR_TEST: Lesson = {
 					>justify-content</code
 				>
 			</div>
-			<div class="quiz__opt" onclick="quiz(this, false)">
+			<div class="quiz__opt">
 				<span class="quiz__letter">C</span
 				><code
 					style="
@@ -546,7 +546,7 @@ const LESSON_FOR_TEST: Lesson = {
 					>flex-direction</code
 				>
 			</div>
-			<div class="quiz__opt" onclick="quiz(this, false)">
+			<div class="quiz__opt">
 				<span class="quiz__letter">D</span
 				><code
 					style="

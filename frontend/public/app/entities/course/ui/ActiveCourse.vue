@@ -42,17 +42,22 @@ const { course } = defineProps<{
     course: Course;
 }>();
 
-console.log(course);
-
 const currentLesson = computed(() => course.userMeta.currentLesson);
 const currentModule = computed(() => course.userMeta.currentModule);
 
 const totalLessonsCount = computed(() =>
     course.modules.reduce((sum, module) => sum + module.lessons.length, 0),
 );
-const currentCourseProgress = computed(() =>
-    Math.round((Number(currentLesson.value) / totalLessonsCount.value) * 100),
-);
+const currentCourseProgress = computed(() => {
+    const currentLessonValue = currentLesson.value;
+    const totalLessons = totalLessonsCount.value;
+
+    if (currentLessonValue == null || totalLessons === 0) {
+        return 0;
+    }
+
+    return Math.round((Number(currentLessonValue) / totalLessons) * 100);
+});
 </script>
 
 <style lang="scss" scoped>

@@ -1,8 +1,5 @@
 <template>
-    <section
-        @test="console.log(100)"
-        v-html="html"
-    />
+    <section v-html="html" />
 </template>
 
 <script setup lang="ts">

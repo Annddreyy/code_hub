@@ -47,14 +47,19 @@ import { Buttons, CompleteBar, Hero, LessonBody, RightSidebar, Sidebar } from '@
 import { coursesApi } from '@/entities/course';
 import { lessonApi } from '@/entities/lesson';
 
+const COURSE_API_FOR_TEST = '1';
+
 const route = useRoute();
 
 const isMounted = ref(false);
 
-const { data: course } = await useAsyncData('course', () => coursesApi.getCourse('1'));
-const { data: lesson } = await useAsyncData('lesson', () =>
-    lessonApi.getLesson(route.params.id as string),
-);
+const [courseResult, lessonResult] = await Promise.all([
+    useAsyncData('course', () => coursesApi.getCourse(COURSE_API_FOR_TEST)),
+    useAsyncData('lesson', () => lessonApi.getLesson(route.params.id as string)),
+]);
+
+const course = courseResult.data;
+const lesson = lessonResult.data;
 
 onMounted(() => {
     isMounted.value = true;

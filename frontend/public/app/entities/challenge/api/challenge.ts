@@ -268,8 +268,7 @@ export type Filters = {
 };
 
 export const challengesApi = {
-    getChallenges: async (filters: Filters) => {
-        console.log(filters);
+    getChallenges: async (_filters: Filters) => {
         return Promise.resolve(CHALLENGES);
     },
 

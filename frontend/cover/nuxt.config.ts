@@ -10,7 +10,7 @@ export default defineNuxtConfig({
 
   modules: ['@nuxt/eslint'],
 
-  components: [{ path: './components' }],
+  components: [{ path: '~/components' }],
 
   //   hooks: {
   //     'components:dirs'(dirs) {
