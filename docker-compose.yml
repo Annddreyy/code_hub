@@ -11,46 +11,33 @@ services:
     build:
       context: frontend/auth
       dockerfile: Dockerfile
-    restart: 'always'
     ports:
-      - '3001:3000'
+      - '3001:3001'
   
   frontend_code_editor:
     build:
       context: frontend/code_editor
       dockerfile: Dockerfile
-    restart: 'always'
     ports:
       - '3002:3000'
-
-  frontend_cover:
-    build:
-      context: frontend/cover
-      dockerfile: Dockerfile
-    restart: 'always'
-    ports:
-      - '3003:3000'
 
   frontend_onboarding:
     build:
       context: frontend/onboarding
       dockerfile: Dockerfile
-    restart: 'always'
     ports:
-      - '3004:3000'
+      - '3003:3000'
 
   frontend_profile:
     build:
       context: frontend/profile
       dockerfile: Dockerfile
-    restart: 'always'
     ports:
-      - '3005:3000'
+      - '3004:3000'
 
   frontend_roadmaps:
     build:
       context: frontend/roadmaps
       dockerfile: Dockerfile
-    restart: 'always'
     ports:
-      - '3006:3000'
+      - '3005:3000'
