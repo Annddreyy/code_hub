@@ -18,9 +18,10 @@ export default defineNuxtConfig({
       allowedHosts: ['codehub.localhost.com'],
       hmr: {
         protocol: 'ws',
-        host: 'codehub.localhost.com',
+        host: 'localhost',
         port: 80,
-      },
+        path: '/auth/__vite_hmr'
+      }
     },
   },
 
