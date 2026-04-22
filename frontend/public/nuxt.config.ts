@@ -7,12 +7,7 @@ export default defineNuxtConfig({
 
     app: {
         head: {
-            link: [
-                {
-                    rel: 'preconnect',
-                    href: 'https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap',
-                },
-            ],
+            link: [{ rel: 'icon', type: 'image/svg+xml', href: '/icon.svg' }],
         },
     },
 });

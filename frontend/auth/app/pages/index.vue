@@ -66,6 +66,10 @@ onUnmounted(() => {
   isMounted.value = false;
   window.removeEventListener('resize', checkWidth);
 });
+
+useHead({
+  title: 'Авторизация',
+});
 </script>
 
 <style lang="scss" scoped>
