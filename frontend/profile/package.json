@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "nuxt dev --port=3004",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@nuxt/eslint": "^1.15.2",
+    "@pinia/nuxt": "^0.11.3",
     "nuxt": "^4.4.2",
     "vue": "^3.5.30",
     "vue-router": "^5.0.4"
@@ -31,6 +32,7 @@
     "husky": "^9.1.7",
     "jiti": "^2.6.1",
     "prettier": "3.8.1",
+    "sass-embedded": "^1.99.0",
     "typescript-eslint": "^8.58.0"
   },
   "lint-staged": {
