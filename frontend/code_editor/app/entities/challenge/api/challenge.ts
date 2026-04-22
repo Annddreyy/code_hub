@@ -427,7 +427,7 @@ const LANGUAGES: Language[] = [
     {
         title: 'python',
         fullTitle: 'Python 3',
-        codeTemplate: `n = int(intput())
+        codeTemplate: `n = int(input())
 print(n)
 `,
     },
