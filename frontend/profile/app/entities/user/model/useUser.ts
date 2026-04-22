@@ -15,7 +15,7 @@ export const useUserStore = defineStore('user', () => {
             errorMessage.value = err as string;
             return;
         } finally {
-            isLoading.value = true;
+            isLoading.value = false;
         }
 
         errorMessage.value = '';

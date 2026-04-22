@@ -1,4 +1,3 @@
-_
 <template>
     <div class="progress-card">
         <div class="progress-card__hdr">

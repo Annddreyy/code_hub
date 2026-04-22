@@ -6,12 +6,15 @@ export default defineNuxtConfig({
         optimizeDeps: {
             include: ['@vue/devtools-core', '@vue/devtools-kit'],
         },
-    },
-
-    runtimeConfig: {
-        public: {
-            basePath: import.meta.env.NUXT_PUBLIC_BASE_PATH
-        }
+        server: {
+            allowedHosts: ['codehub.localhost.com'],
+            hmr: {
+                protocol: 'ws',
+                host: 'localhost',
+                port: 80,
+                path: '/profile/__vite_hmr',
+            },
+        },
     },
 
     modules: ['@nuxt/eslint', '@pinia/nuxt'],
@@ -19,6 +22,7 @@ export default defineNuxtConfig({
     extends: ['../cover'],
 
     app: {
+        baseURL: '/profile/',
         head: {
             link: [{ rel: 'icon', type: 'image/svg+xml', href: '/icon.svg' }],
         },

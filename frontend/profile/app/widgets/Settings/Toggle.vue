@@ -2,8 +2,9 @@
     <label class="toggle-label">
         <input
             type="checkbox"
-            :checked="isActive"
             class="toggle-input"
+            :name
+            :checked="isActive"
         />
         <span class="toggle-slider" />
     </label>
@@ -12,6 +13,7 @@
 <script setup lang="ts">
 defineProps<{
     isActive?: boolean;
+    name: string;
 }>();
 </script>
 

@@ -1,7 +1,7 @@
 <template>
     <div>
         <AchievementsHero
-            v-if="totalAchievements && unlockedAchievements"
+            v-if="totalAchievements"
             :total-achievements
             :unlocked-achievements
         />
@@ -26,13 +26,13 @@ const currentCategory = ref<Category | undefined>(undefined);
 
 const { data: achievements } = await useAsyncData(
     'achievements',
-    () => achievementsApi.getAchievements(),
+    () => achievementsApi.getAchievements(currentCategory.value),
     { watch: [currentCategory] },
 );
 
 const totalAchievements = computed(() => achievements.value?.length);
 const unlockedAchievements = computed(
-    () => achievements.value?.filter((achievement) => achievement.userMeta.earnedDate).length,
+    () => achievements.value?.filter((achievement) => achievement.userMeta.earnedDate).length || 0,
 );
 
 const setCategory = (category: Category | undefined) => {

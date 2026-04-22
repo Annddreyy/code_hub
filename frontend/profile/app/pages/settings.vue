@@ -16,7 +16,8 @@
 import { SettingsCard } from '@/widgets/Settings';
 import { useUserStore } from '@/entities/user';
 
-const { user } = useUserStore();
+const userStore = useUserStore();
+const { user } = storeToRefs(userStore);
 
 const forms = computed(() => [
     {
@@ -25,21 +26,21 @@ const forms = computed(() => [
         rows: [
             {
                 component: 'AvatarUpload',
-                props: { userName: user?.name, name: 'avatar' },
+                props: { userName: user.value?.name, name: 'avatar' },
             },
             {
                 label: 'Отображаемое имя',
                 sublabel: 'Отображается в таблицах лидеров и профиле',
                 icon: '👤',
                 component: 'Input',
-                props: { value: user?.name, name: 'name' },
+                props: { value: user.value?.name, name: 'name' },
             },
             {
                 label: 'Bio',
                 sublabel: 'Краткое описание отображается в профиле',
                 icon: '📝',
                 component: 'Input',
-                props: { value: user?.bio, name: 'bio' },
+                props: { value: user.value?.bio, name: 'bio' },
             },
             {
                 component: 'SaveBtn',
@@ -180,7 +181,7 @@ const forms = computed(() => [
                 component: 'Input',
                 props: {
                     name: 'email',
-                    value: user?.email,
+                    value: user.value?.email,
                 },
             },
             {
@@ -190,7 +191,7 @@ const forms = computed(() => [
                 props: {
                     name: 'password',
                     type: 'password',
-                    value: user?.password,
+                    value: user.value?.password,
                 },
             },
             {

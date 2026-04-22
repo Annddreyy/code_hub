@@ -8,21 +8,21 @@
                         <div class="nav-section__label">// Аккаунт</div>
                         <NuxtLink
                             class="nav-section__link active"
-                            :to="`${BASE_PATH}/`"
+                            to="/"
                         >
                             <span class="nav-section__ico">👤</span>
                             Профиль
                         </NuxtLink>
                         <NuxtLink
                             class="nav-section__link"
-                            :to="`${BASE_PATH}achievements`"
+                            to="/achievements"
                         >
                             <span class="nav-section__ico">🏆</span>
                             Ачивки
                         </NuxtLink>
                         <NuxtLink
                             class="nav-section__link"
-                            :to="`${BASE_PATH}settings`"
+                            to="/settings"
                         >
                             <span class="nav-section__ico">⚙️</span>
                             Настройки
@@ -38,9 +38,6 @@
 </template>
 
 <script setup lang="ts">
-const BASE_PATH = useRuntimeConfig().public.basePath;
-
-onMounted(() => console.log(100))
 </script>
 
 <style lang="scss" scoped>

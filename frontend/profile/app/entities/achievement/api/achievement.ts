@@ -203,7 +203,7 @@ const ACHIEVEMENTS_TEST: Achievement[] = [
 ];
 
 export const achievementsApi = {
-    getAchievements: async () => {
+    getAchievements: async (_category: Category | undefined) => {
         return Promise.resolve(ACHIEVEMENTS_TEST);
     },
 };
