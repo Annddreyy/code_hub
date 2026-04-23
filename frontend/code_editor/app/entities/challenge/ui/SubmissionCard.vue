@@ -153,7 +153,9 @@ const copyCode = async () => {
         setTimeout(() => {
             copied.value = false;
         }, 2000);
-    } catch {}
+    } catch {
+        console.log('Временное уведоимление об ошибке копирования');
+    }
 };
 </script>
 

@@ -1,49 +1,50 @@
 {
-  "name": "code_editor",
-  "type": "module",
-  "private": true,
-  "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev --port=3002",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare",
-    "lint": "npm run lint:eslint && npm run lint:prettier",
-    "lint:eslint": "eslint .",
-    "lint:prettier": "prettier . --check",
-    "lintfix": "eslint . --fix && prettier --write --list-different .",
-    "prepare": "cd ../.. && husky install .husky"
-  },
-  "dependencies": {
-    "@nuxt/eslint": "^1.15.2",
-    "@types/lodash-es": "^4.17.12",
-    "highlight.js": "^11.11.1",
-    "lodash-es": "^4.18.1",
-    "nuxt": "^4.4.2",
-    "sass-embedded": "^1.99.0",
-    "vue": "^3.5.30",
-    "vue-router": "^5.0.4"
-  },
-  "devDependencies": {
-    "@eslint/css": "^0.14.1",
-    "@eslint/js": "^9.39.4",
-    "@eslint/json": "^0.14.0",
-    "@eslint/markdown": "^7.5.1",
-    "eslint": "^10.1.0",
-    "eslint-plugin-vue": "^10.8.0",
-    "globals": "^17.4.0",
-    "husky": "^9.1.7",
-    "jiti": "^2.6.1",
-    "prettier": "3.8.1",
-    "typescript-eslint": "^8.58.0"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,vue}": [
-      "npx eslint --fix",
-      "npx prettier --write"
-    ],
-    "*.{json,css,scss,md}": [
-      "npx prettier --write"
-    ]
-  }
+    "name": "code_editor",
+    "type": "module",
+    "private": true,
+    "scripts": {
+        "build": "cd ../cover && npm i && nuxt build && cd ../code_editor && nuxt build",
+        "dev": "cd ../cover && npm i && nuxt build && cd ../code_editor && nuxt dev --port=3002",
+        "generate": "nuxt generate",
+        "preview": "nuxt preview",
+        "postinstall": "nuxt prepare",
+        "lint": "npm run lint:eslint && npm run lint:prettier",
+        "lint:eslint": "eslint .",
+        "lint:prettier": "prettier . --check",
+        "lintfix": "eslint . --fix && prettier --write --list-different .",
+        "typecheck": "npx nuxt typecheck",
+        "prepare": "cd ../.. && husky frontend/code_editor/.husky"
+    },
+    "dependencies": {
+        "@nuxt/eslint": "^1.15.2",
+        "@types/lodash-es": "^4.17.12",
+        "highlight.js": "^11.11.1",
+        "lodash-es": "^4.18.1",
+        "nuxt": "^4.4.2",
+        "sass-embedded": "^1.99.0",
+        "vue": "^3.5.30",
+        "vue-router": "^5.0.4"
+    },
+    "devDependencies": {
+        "@eslint/css": "^0.14.1",
+        "@eslint/js": "^9.39.4",
+        "@eslint/json": "^0.14.0",
+        "@eslint/markdown": "^7.5.1",
+        "eslint": "^10.1.0",
+        "eslint-plugin-vue": "^10.8.0",
+        "globals": "^17.4.0",
+        "husky": "^9.1.7",
+        "jiti": "^2.6.1",
+        "prettier": "3.8.1",
+        "typescript-eslint": "^8.58.0"
+    },
+    "lint-staged": {
+        "*.{js,jsx,ts,tsx,vue}": [
+            "npx eslint --fix",
+            "npx prettier --write"
+        ],
+        "*.{json,css,scss,md}": [
+            "npx prettier --write"
+        ]
+    }
 }

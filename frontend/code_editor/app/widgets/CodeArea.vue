@@ -135,7 +135,7 @@ const setCaretOffset = (element: HTMLElement, offset: number) => {
 const applyHighlight = async (offset: number) => {
     if (!editableCode.value) return;
 
-    let rawText = editableCode.value.textContent || '';
+    const rawText = editableCode.value.textContent || '';
 
     const textForHljs = rawText.endsWith('\n') ? rawText + ' ' : rawText;
 

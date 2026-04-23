@@ -1,6 +1,6 @@
 <template>
     <div class="hero">
-        <div class="hero__bg"></div>
+        <div class="hero__bg" />
         <div
             v-if="user"
             class="hero__top"
@@ -15,6 +15,7 @@
                 <div class="hero__socials">
                     <a
                         v-for="socialLink in user.socialLinks"
+                        :key="socialLink.link"
                         :href="socialLink.link"
                         class="hero__social"
                     >
@@ -230,7 +231,7 @@ const createdDate = computed(() => formatter.format(user.createdAt));
         }
 
         &__edit-btn {
-            position:static;
+            position: static;
         }
     }
 }

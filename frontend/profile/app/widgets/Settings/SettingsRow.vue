@@ -34,7 +34,13 @@
 <script setup lang="ts">
 import { componentRegistry } from './componentRegistry';
 
-const { component } = defineProps<{
+const {
+    component,
+    label = '',
+    sublabel = '',
+    icon = '',
+    props = {},
+} = defineProps<{
     label?: string;
     sublabel?: string;
     icon?: string;

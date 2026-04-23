@@ -18,7 +18,8 @@
 </template>
 
 <script setup lang="ts">
-import { Category, CATEGORY_TITLES } from '@/entities/achievement';
+import type { Category } from '@/entities/achievement';
+import { CATEGORY_TITLES } from '@/entities/achievement';
 
 defineProps<{
     totalAchievements: number;

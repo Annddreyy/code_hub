@@ -37,7 +37,7 @@ defineProps<{
 .progress-card {
     border: 1px solid var(--b1);
     border-radius: 14px;
-    
+
     overflow: hidden;
     background: var(--s1);
 
