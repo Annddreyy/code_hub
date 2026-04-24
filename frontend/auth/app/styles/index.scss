@@ -1,144 +1,144 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 :root {
-  --bg: #06090d;
-  --s1: #0d1117;
-  --s2: #161b22;
-  --s3: #1c2330;
-  --b1: rgba(255, 255, 255, 0.06);
-  --b2: rgba(255, 255, 255, 0.11);
-  --b3: rgba(255, 255, 255, 0.2);
-  --blue: #4f9cff;
-  --green: #3fb950;
-  --purple: #bc8cff;
-  --cyan: #39d4c8;
-  --orange: #ff8c42;
-  --red: #ff5c72;
-  --yellow: #e3b341;
-  --text: #e6edf3;
-  --muted: #8b949e;
-  --dim: #484f58;
-  --mono: 'JetBrains Mono', monospace;
-  --sans: 'Syne', sans-serif;
-  --spaced: 'Space Mono', monospace;
+    --bg: #06090d;
+    --s1: #0d1117;
+    --s2: #161b22;
+    --s3: #1c2330;
+    --b1: rgba(255, 255, 255, 0.06);
+    --b2: rgba(255, 255, 255, 0.11);
+    --b3: rgba(255, 255, 255, 0.2);
+    --blue: #4f9cff;
+    --green: #3fb950;
+    --purple: #bc8cff;
+    --cyan: #39d4c8;
+    --orange: #ff8c42;
+    --red: #ff5c72;
+    --yellow: #e3b341;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --dim: #484f58;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Syne', sans-serif;
+    --spaced: 'Space Mono', monospace;
 }
 
 html,
 body {
-  height: 100%;
-  overflow: hidden;
+    height: 100%;
+    overflow: hidden;
 }
 
 body {
-  display: flex;
-  font-family: var(--sans);
-  color: var(--text);
-  background: var(--bg);
+    display: flex;
+    font-family: var(--sans);
+    color: var(--text);
+    background: var(--bg);
 }
 
 body::before {
-  position: fixed;
-  content: '';
-  inset: 0;
-  background-image:
-    linear-gradient(var(--b1) 1px, transparent 1px),
-    linear-gradient(90deg, var(--b1) 1px, transparent 1px);
-  background-size: 42px 42px;
-  pointer-events: none;
-  z-index: 0;
+    position: fixed;
+    content: '';
+    inset: 0;
+    background-image:
+        linear-gradient(var(--b1) 1px, transparent 1px),
+        linear-gradient(90deg, var(--b1) 1px, transparent 1px);
+    background-size: 42px 42px;
+    pointer-events: none;
+    z-index: 0;
 }
 
 @keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.3;
-  }
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.3;
+    }
 }
 
 @keyframes float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
 }
 
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes glow {
-  0%,
-  100% {
-    box-shadow: 0 0 20px rgba(79, 156, 255, 0.2);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(79, 156, 255, 0.45);
-  }
+    0%,
+    100% {
+        box-shadow: 0 0 20px rgba(79, 156, 255, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(79, 156, 255, 0.45);
+    }
 }
 
 @keyframes scanline {
-  0% {
-    transform: translateY(-100%);
-  }
-  100% {
-    transform: translateY(100vh);
-  }
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(100vh);
+    }
 }
 
 @keyframes blink {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
 }
 
 @keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
 }
 
 @keyframes neonFlicker {
-  0%,
-  95%,
-  100% {
-    opacity: 1;
-  }
-  96%,
-  98% {
-    opacity: 0.4;
-  }
+    0%,
+    95%,
+    100% {
+        opacity: 1;
+    }
+    96%,
+    98% {
+        opacity: 0.4;
+    }
 }
 
 @media (max-width: 1220px) {
