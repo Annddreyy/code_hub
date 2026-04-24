@@ -3,6 +3,11 @@
         id="login-form"
         @submit.prevent="handleSubmit"
     >
+        <div
+            :class="['register-form__message', { 'register-form__message--error': isErrorMessage }]"
+        >
+            {{ message }}
+        </div>
         <div class="field">
             <label>Email</label>
             <div class="field__wrap">
@@ -45,11 +50,26 @@
 </template>
 
 <script setup lang="ts">
+import { authApi, type ApiError } from '@/api/auth';
+
 const email = ref('');
 const password = ref('');
 
-const handleSubmit = () => {
-    console.log('Оправлено! (Лог для теста)');
+const message = ref('');
+const isErrorMessage = ref(false);
+
+const handleSubmit = async () => {
+    try {
+        const response = await authApi.login(email.value, password.value);
+        message.value = response.data.message;
+        isErrorMessage.value = false;
+    } catch (error: unknown) {
+        message.value =
+            (error as ApiError).response.data.message ||
+            (error as ApiError).response.data.errors?.[0]?.messages[0] ||
+            'Неизвестная ошибка';
+        isErrorMessage.value = true;
+    }
 };
 </script>
 

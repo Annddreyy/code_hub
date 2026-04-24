@@ -1,3 +1,16 @@
+.register-form {
+    &__message {
+        margin-bottom: 10px;
+
+        font-size: 12px;
+        color: var(--green);
+
+        &--error {
+            color: var(--red);
+        }
+    }
+}
+
 .field {
     margin-bottom: 16px;
 
