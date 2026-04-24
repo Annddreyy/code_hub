@@ -1,5 +1,5 @@
 <template>
-  <Cover />
+    <Cover />
 </template>
 
 <script setup lang="ts">

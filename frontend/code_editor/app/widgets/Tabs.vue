@@ -57,7 +57,7 @@ const setCurrentTab = (tab: ETabs) => {
 
     display: flex;
     flex-shrink: 0;
-    
+
     border-bottom: 1px solid var(--b1);
     background: var(--s1);
 

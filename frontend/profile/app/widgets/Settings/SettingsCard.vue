@@ -5,8 +5,8 @@
             <p class="settings-card__subtitle">{{ subtitle }}</p>
         </div>
         <form
-            class="settings-card__body"
             ref="form"
+            class="settings-card__body"
             @submit.prevent="handleSubmit"
         >
             <SettingsRow
@@ -38,13 +38,13 @@ const formRef = useTemplateRef('form');
 const serializeForm = (formNode: HTMLFormElement) => {
     const formData = new FormData(formNode);
     const data: Record<string, string | File> = {};
-    
+
     for (const [key, value] of formData.entries()) {
         data[key] = value;
     }
-    
+
     return data;
-}
+};
 
 const handleSubmit = () => {
     console.log(serializeForm(formRef.value!));

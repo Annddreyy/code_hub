@@ -16,4 +16,4 @@ type Test = {
     inputData: string[];
     outputData: string[];
     order: number;
-}
+};

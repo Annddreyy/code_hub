@@ -85,7 +85,6 @@ useHead({
         width: 100vw;
         height: 100vh;
     }
-
     main {
         justify-content: center;
         align-items: center;

@@ -19,7 +19,8 @@
 </template>
 
 <script setup lang="ts">
-import { achievementsApi, Category } from '@/entities/achievement';
+import type { Category } from '@/entities/achievement';
+import { achievementsApi } from '@/entities/achievement';
 import { AchievementsGrid, AchievementsHero, CategoryTabs } from '@/widgets';
 
 const currentCategory = ref<Category | undefined>(undefined);
@@ -37,7 +38,7 @@ const unlockedAchievements = computed(
 
 const setCategory = (category: Category | undefined) => {
     currentCategory.value = category;
-}
+};
 
 useHead({
     title: 'Достижения',

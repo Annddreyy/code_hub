@@ -3,8 +3,8 @@
     "type": "module",
     "private": true,
     "scripts": {
-        "build": "nuxt build",
-        "dev": "nuxt dev",
+        "build": "cd ../cover && npm i && nuxt build && cd ../public && nuxt build",
+        "dev": "cd ../cover && npm i && nuxt build && cd ../public && nuxt dev",
         "generate": "nuxt generate",
         "preview": "nuxt preview",
         "postinstall": "nuxt prepare",
@@ -12,6 +12,7 @@
         "lint:eslint": "eslint .",
         "lint:prettier": "prettier . --check",
         "lintfix": "eslint . --fix && prettier --write --list-different .",
+        "typecheck": "npx nuxt typecheck",
         "prepare": "cd ../.. && husky install .husky"
     },
     "dependencies": {

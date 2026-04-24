@@ -1,0 +1,178 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'frontend/onboarding/**'
+      - 'frontend/code_editor/**'
+      - 'frontend/cover/**'
+      - 'frontend/auth/**'
+      - 'frontend/roadmaps/**'
+      - 'frontend/profile/**'
+      - 'frontend/public/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'frontend/onboarding/**'
+      - 'frontend/code_editor/**'
+      - 'frontend/cover/**'
+      - 'frontend/auth/**'
+      - 'frontend/roadmaps/**'
+      - 'frontend/profile/**'
+      - 'frontend/public/**'
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      apps: ${{ steps.set-apps.outputs.apps }}
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Check paths
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            onboarding:
+              - 'frontend/onboarding/**'
+            code_editor:
+              - 'frontend/code_editor/**'
+            cover:
+              - 'frontend/cover/**'
+            auth:
+              - 'frontend/auth/**'
+            roadmaps:
+              - 'frontend/roadmaps/**'
+            profile:
+              - 'frontend/profile/**'
+            public:
+              - 'frontend/public/**'
+      
+      - name: Set apps matrix
+        id: set-apps
+        run: |
+          APPS=""
+          [ "${{ steps.filter.outputs.onboarding }}" == "true" ] && APPS="${APPS}onboarding,"
+          [ "${{ steps.filter.outputs.code_editor }}" == "true" ] && APPS="${APPS}code_editor,"
+          [ "${{ steps.filter.outputs.cover }}" == "true" ] && APPS="${APPS}cover,"
+          [ "${{ steps.filter.outputs.auth }}" == "true" ] && APPS="${APPS}auth,"
+          [ "${{ steps.filter.outputs.roadmaps }}" == "true" ] && APPS="${APPS}roadmaps,"
+          [ "${{ steps.filter.outputs.profile }}" == "true" ] && APPS="${APPS}profile,"
+          [ "${{ steps.filter.outputs.public }}" == "true" ] && APPS="${APPS}public,"
+          
+          APPS=${APPS%,}
+          
+          if [ -z "$APPS" ]; then
+            echo "apps=[]" >> $GITHUB_OUTPUT
+          else
+            JSON_APPS=$(echo "$APPS" | sed 's/,/","/g' | sed 's/^/["/' | sed 's/$/"]/')
+            echo "apps=$JSON_APPS" >> $GITHUB_OUTPUT
+          fi
+
+  lint-frontend:
+    runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.apps != '[]'
+    strategy:
+      matrix:
+        app: ${{ fromJson(needs.changes.outputs.apps) }}
+    
+    defaults:
+      run:
+        working-directory: frontend/${{ matrix.app }}
+
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3
+
+      - name: Get Node version from .nvmrc
+        id: nvm
+        run: echo "node_version=$(cat .nvmrc)" >> $GITHUB_OUTPUT
+
+      - name: установка Node.js для ${{ matrix.app }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ steps.nvm.outputs.node_version }}
+
+      - name: установка зависимостей для ${{ matrix.app }}
+        run: npm install
+
+      - name: run ESLint and Prettier
+        run: npm run lint
+
+  typecheck-frontend:
+    runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.apps != '[]'
+    strategy:
+      matrix:
+        app: ${{ fromJson(needs.changes.outputs.apps) }}
+    
+    defaults:
+      run:
+        working-directory: frontend/${{ matrix.app }}
+
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3
+
+      - name: Get Node version from .nvmrc
+        id: nvm
+        run: echo "node_version=$(cat .nvmrc)" >> $GITHUB_OUTPUT
+
+      - name: установка Node.js для ${{ matrix.app }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ steps.nvm.outputs.node_version }}
+
+      - name: установка зависимостей для ${{ matrix.app }}
+        run: npm install
+
+      - name: run ts check
+        run: npm run typecheck
+
+  build-frontend:
+    runs-on: ubuntu-latest
+    needs: 
+      - changes
+      - lint-frontend
+      - typecheck-frontend
+    if: needs.changes.outputs.apps != '[]'
+    strategy:
+      matrix:
+        app: ${{ fromJson(needs.changes.outputs.apps) }}
+    
+    defaults:
+      run:
+        working-directory: frontend/${{ matrix.app }}
+    
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3
+
+      - name: Get Node version from .nvmrc
+        id: nvm
+        run: echo "node_version=$(cat .nvmrc)" >> $GITHUB_OUTPUT
+
+      - name: установка Node.js для ${{ matrix.app }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ steps.nvm.outputs.node_version }}
+      
+      - name: установка зависимостей для ${{ matrix.app }}
+        run: npm install
+      
+      - name: run build ${{ matrix.app }}
+        run: npm run build
+      
+      - name: upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.app }}-build
+          path: frontend/${{ matrix.app }}/.output/

@@ -12,6 +12,7 @@
         "lint:eslint": "eslint .",
         "lint:prettier": "prettier . --check",
         "lintfix": "eslint . --fix && prettier --write --list-different .",
+        "typecheck": "npx nuxt typecheck",
         "prepare": "cd ../.. && husky frontend/auth/.husky"
     },
     "dependencies": {

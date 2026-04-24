@@ -55,7 +55,6 @@
                         :class="index < score ? strengthClass : ''"
                     />
                 </div>
-
                 <div
                     class="pw-label"
                     :style="{ color: labelColor }"
@@ -138,7 +137,6 @@ const handleSubmit = async () => {
 </style>
 
 <style lang="scss" scoped>
-
 .pw-strength {
     margin-top: 7px;
 
