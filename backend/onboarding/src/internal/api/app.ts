@@ -20,8 +20,8 @@ app.use((req, _res, next) => {
     next();
 });
 
-app.use('/api/onboarding', onboardingRouter);
-app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(onboardingSwaggerDocument));
+app.use('/', onboardingRouter);
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(onboardingSwaggerDocument));
 
 app.get('/health', (_req, res) => {
     res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
