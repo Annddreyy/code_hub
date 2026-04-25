@@ -13,7 +13,7 @@
         "lint:prettier": "prettier . --check",
         "lintfix": "eslint . --fix && prettier --write --list-different .",
         "typecheck": "npx nuxt typecheck",
-        "prepare": "cd ../.. && husky install .husky"
+        "prepare": "cd ../.. && husky frontend/public/.husky"
     },
     "dependencies": {
         "@nuxt/eslint": "^1.15.2",
