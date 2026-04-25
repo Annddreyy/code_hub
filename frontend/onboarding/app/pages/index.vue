@@ -190,7 +190,7 @@ const goToStep = (step: Steps) => {
 const goToRoadmapsStep = async () => {
     currentStep.value = Steps.ROADMAP;
     roadmaps.value = (await roadmapsApi.getRoadmaps(userChoices.value)).roadmaps;
-}
+};
 
 const sendResults = () => {
     window.location.replace('/');
