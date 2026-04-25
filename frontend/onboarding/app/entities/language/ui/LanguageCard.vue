@@ -4,11 +4,7 @@
         @click="toggleSelect"
     >
         <div class="checkmark">✓</div>
-        <img
-            class="language-card__icon"
-            :src="icon"
-            alt=""
-        />
+        <div class="language-card__icon">{{ icon }}</div>
         <div class="language-card__title">{{ title }}</div>
         <div class="language-card__areas">{{ usageAreasString }}</div>
     </div>
@@ -59,11 +55,8 @@ const toggleSelect = () => {
     }
 
     &__icon {
-        width: 34px;
-        height: 34px;
-        margin-bottom: 8px;
-
-        font-size: 28px;
+        margin-bottom: 12px;
+        font-size: 24px;
     }
 
     &__title {

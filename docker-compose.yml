@@ -56,6 +56,20 @@ services:
     depends_on:
       - postgres
 
+  backend_onboarding_service:
+    build:
+      context: backend/onboarding
+      dockerfile: Dockerfile
+    container_name: onboarding-service
+    env_file:
+      - .env.local
+    environment:
+      - POSTGRES_HOST=db
+    ports:
+      - "8002:8002"
+    depends_on:
+      - postgres
+
   postgres:
     image: postgres:17-alpine
     container_name: db
@@ -67,6 +81,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
+    tty: true
 
 volumes:
   postgres_data:

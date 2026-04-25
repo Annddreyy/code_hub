@@ -2,7 +2,6 @@
     <div class="roadmap">
         <div class="roadmap__icon">{{ icon }}</div>
         <div class="roadmap__title">{{ title }}</div>
-        <div class="roadmap__xp">⚡ {{ xp }} XP</div>
     </div>
 </template>
 
@@ -33,12 +32,6 @@ defineProps<Roadmap>();
 
         font-size: 12px;
         font-weight: 700;
-    }
-
-    &__xp {
-        font-family: var(--sm);
-        font-size: 9px;
-        color: var(--yellow);
     }
 }
 </style>
