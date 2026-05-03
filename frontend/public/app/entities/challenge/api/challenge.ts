@@ -1,278 +1,41 @@
+import { instance } from '@/shared/api';
 import type { Challenge, Difficulty, Status } from '../model/challenge';
-
-export const CHALLENGES: Challenge[] = [
-    {
-        id: '01',
-        title: 'Сумма двух чисел',
-        difficulty: 'easy',
-        topic: 'Алгоритмы',
-        status: 'todo',
-        tags: ['математика', 'базовый'],
-        accept: 89,
-        xpReward: 50,
-        userMeta: {
-            solvedAt: new Date(),
-        },
-    },
-    {
-        id: '02',
-        title: 'Проверка палиндрома',
-        difficulty: 'easy',
-        topic: 'Строки',
-        status: 'todo',
-        tags: ['строки', 'логика'],
-        accept: 85,
-        xpReward: 60,
-        userMeta: {},
-    },
-    {
-        id: '03',
-        title: 'Поиск максимального элемента',
-        difficulty: 'easy',
-        topic: 'Массивы',
-        status: 'in-progress',
-        tags: ['массивы', 'поиск'],
-        accept: 92,
-        xpReward: 55,
-        userMeta: {},
-    },
-    {
-        id: '04',
-        title: 'Обратный порядок строки',
-        difficulty: 'easy',
-        topic: 'Строки',
-        status: 'todo',
-        tags: ['строки', 'циклы'],
-        accept: 88,
-        xpReward: 45,
-        userMeta: {
-            solvedAt: new Date(),
-        },
-    },
-    {
-        id: '05',
-        title: 'Четные и нечетные числа',
-        difficulty: 'easy',
-        topic: 'Условные операторы',
-        status: 'done',
-        tags: ['условия', 'операторы'],
-        accept: 94,
-        xpReward: 40,
-        userMeta: {},
-    },
-    {
-        id: '06',
-        title: 'Сортировка пузырьком',
-        difficulty: 'medium',
-        topic: 'Алгоритмы',
-        status: 'todo',
-        tags: ['сортировка', 'алгоритмы'],
-        accept: 74,
-        xpReward: 100,
-        userMeta: {},
-    },
-    {
-        id: '07',
-        title: 'Поиск дубликатов в массиве',
-        difficulty: 'medium',
-        topic: 'Массивы',
-        status: 'todo',
-        tags: ['массивы', 'поиск', 'хеш-таблицы'],
-        accept: 70,
-        xpReward: 110,
-        userMeta: {
-            solvedAt: new Date(),
-        },
-    },
-    {
-        id: '08',
-        title: 'Анаграммы',
-        difficulty: 'medium',
-        topic: 'Строки',
-        status: 'in-progress',
-        tags: ['строки', 'сортировка'],
-        accept: 68,
-        xpReward: 120,
-        userMeta: {},
-    },
-    {
-        id: '09',
-        title: 'Числа Фибоначчи',
-        difficulty: 'medium',
-        topic: 'Рекурсия',
-        status: 'todo',
-        tags: ['рекурсия', 'динамика'],
-        accept: 76,
-        xpReward: 115,
-        userMeta: {},
-    },
-    {
-        id: '10',
-        title: 'Проверка скобочной последовательности',
-        difficulty: 'medium',
-        topic: 'Стек',
-        status: 'todo',
-        tags: ['стек', 'парсинг'],
-        accept: 65,
-        xpReward: 130,
-        userMeta: {},
-    },
-    {
-        id: '11',
-        title: 'Обратная польская запись',
-        difficulty: 'hard',
-        topic: 'Алгоритмы',
-        status: 'todo',
-        tags: ['стек', 'калькулятор'],
-        accept: 45,
-        xpReward: 200,
-        userMeta: {
-            solvedAt: new Date(),
-        },
-    },
-    {
-        id: '12',
-        title: 'Наибольшая общая подпоследовательность',
-        difficulty: 'hard',
-        topic: 'Динамическое программирование',
-        status: 'todo',
-        tags: ['ДП', 'строки'],
-        accept: 38,
-        xpReward: 250,
-        userMeta: {},
-    },
-    {
-        id: '13',
-        title: 'Глубина бинарного дерева',
-        difficulty: 'hard',
-        topic: 'Деревья',
-        status: 'in-progress',
-        tags: ['деревья', 'рекурсия', 'BFS'],
-        accept: 52,
-        xpReward: 220,
-        userMeta: {
-            solvedAt: new Date(),
-        },
-    },
-    {
-        id: '14',
-        title: 'Поиск кратчайшего пути в графе',
-        difficulty: 'hard',
-        topic: 'Графы',
-        status: 'todo',
-        tags: ['графы', 'Дейкстра', 'алгоритмы'],
-        accept: 42,
-        xpReward: 280,
-        userMeta: {
-            solvedAt: new Date(),
-        },
-    },
-    {
-        id: '15',
-        title: 'Регулярные выражения',
-        difficulty: 'hard',
-        topic: 'Паттерны',
-        status: 'todo',
-        tags: ['regex', 'паттерны'],
-        accept: 35,
-        xpReward: 240,
-        userMeta: {},
-    },
-    {
-        id: '16',
-        title: 'Слияние отсортированных массивов',
-        difficulty: 'easy',
-        topic: 'Массивы',
-        status: 'todo',
-        tags: ['массивы', 'слияние'],
-        accept: 86,
-        xpReward: 65,
-        userMeta: {},
-    },
-    {
-        id: '17',
-        title: 'Подсчет гласных в строке',
-        difficulty: 'easy',
-        topic: 'Строки',
-        status: 'done',
-        tags: ['строки', 'подсчет'],
-        accept: 91,
-        xpReward: 50,
-        userMeta: {
-            solvedAt: new Date(),
-        },
-    },
-    {
-        id: '18',
-        title: 'Бинарный поиск',
-        difficulty: 'medium',
-        topic: 'Алгоритмы',
-        status: 'todo',
-        tags: ['поиск', 'логарифм'],
-        accept: 72,
-        xpReward: 125,
-        userMeta: {
-            solvedAt: new Date(),
-        },
-    },
-    {
-        id: '19',
-        title: 'Обход дерева в глубину',
-        difficulty: 'hard',
-        topic: 'Деревья',
-        status: 'todo',
-        tags: ['DFS', 'деревья', 'рекурсия'],
-        accept: 48,
-        xpReward: 230,
-        userMeta: {
-            solvedAt: new Date(),
-        },
-    },
-    {
-        id: '20',
-        title: 'Оптимизация маршрута коммивояжера',
-        difficulty: 'hard',
-        topic: 'Графы',
-        status: 'todo',
-        tags: ['графы', 'TSP', 'сложный'],
-        accept: 28,
-        xpReward: 300,
-        userMeta: {},
-    },
-];
-
-const TOPICS: string[] = [
-    'Списки',
-    'Строки',
-    'Hash Map',
-    'Связные списки',
-    'Деревья',
-    'Графы',
-    'Сортировка',
-    'Бинарный поиск',
-    'Стек',
-    'Очередь',
-    'Куча',
-    'Рекурсия',
-    'Жадные алгоритмы',
-    'Битовые операции',
-    'Математика',
-];
 
 export type Filters = {
     topics?: string[];
     statuses?: Status[];
+    inProgress?: boolean;
     difficulty?: Difficulty;
     title?: string;
-    isSolved?: boolean;
+    page?: number;
+};
+
+type ChallengesResponse = {
+    challenges: Challenge[];
+    totalCount: number;
+    pageSize: number;
+};
+
+export type StatsResponse = {
+    completedCount: number;
+    pendingCount: number;
+    hardCount: number;
+    mediumCount: number;
+    easyCount: number;
+    totalCount: number;
+    completionPercentage: number;
 };
 
 export const challengesApi = {
-    getChallenges: async (_filters: Filters) => {
-        return Promise.resolve(CHALLENGES);
+    getChallenges: async (filters: Filters, headers = {}) => {
+        return (await instance.post<ChallengesResponse>('challenges', filters, { headers })).data;
     },
 
-    getTopics: async () => {
-        return Promise.resolve(TOPICS);
+    getTopics: async (headers = {}) => {
+        return (await instance.get<string[]>('challenges/topics', { headers })).data;
+    },
+
+    getStats: async (headers = {}) => {
+        return (await instance.get<StatsResponse>('challenges/stats', { headers })).data;
     },
 };

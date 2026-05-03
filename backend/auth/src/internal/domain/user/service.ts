@@ -2,11 +2,11 @@ import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 import { add } from 'date-fns';
 import { emailAdapter } from '@/internal/infrastructure/email';
+import { ConfirmEmailDto, LoginDto, RegisterDto, ResetPasswordDto } from '@/internal/api/auth/dto';
 import { jwtService, JwtPayload } from '@/pkg/jwt';
 import { logger } from '@/pkg/logger';
 import { User, UserRole } from './user';
 import { userRepository } from './repository';
-import { ConfirmEmailDto, LoginDto, RegisterDto, ResetPasswordDto } from '@/internal/api/auth/dto';
 
 const CONFIRMATION_EXPIRY = { hours: 1, minutes: 30 };
 const RESET_EXPIRY = { hours: 1 };
@@ -59,9 +59,11 @@ export const userService = {
 
     async confirmEmail(dto: ConfirmEmailDto) {
         const user = await userRepository.findByEmail(dto.email);
+        
         if (!user) {
             return false;
         }
+
         if (user.emailConfirmation.isConfirmed) {
             return false;
         }

@@ -12,24 +12,39 @@ import {
 
 export const authRouter = Router();
 
+const setTokenCookies = (res: Response, accessToken: string, refreshToken: string) => {
+    res.cookie('accessToken', accessToken, {
+        httpOnly: true,
+        secure: false,
+        sameSite: 'lax',
+        maxAge: 15 * 60 * 1000,
+    });
+
+    res.cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        secure: false,
+        sameSite: 'lax',
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+};
+
+const clearTokenCookies = (res: Response) => {
+    res.clearCookie('accessToken');
+    res.clearCookie('refreshToken');
+};
+
 authRouter.post(
     '/register',
     validateBody(RegisterDto),
     async (req: RequestWithBody<RegisterDto>, res: Response) => {
-        const dto = req.body;
-
-        const userId = await userService.register(dto);
+        const userId = await userService.register(req.body);
 
         if (!userId) {
-            res.status(400).json({
-                message: 'Пользователь с таким email уже существует',
-            });
+            res.status(400).json({ message: 'Пользователь с таким email уже существует' });
             return;
         }
 
-        res.status(201).json({
-            message: 'Регистрация прошла успешно. Проверьте свою почту.',
-        });
+        res.status(201).json({ message: 'Регистрация прошла успешно. Проверьте свою почту.' });
     },
 );
 
@@ -40,9 +55,7 @@ authRouter.post(
         const ok = await userService.confirmEmail(req.body);
 
         if (!ok) {
-            res.status(400).json({
-                message: 'Неправильный или просроченный код подтверждения',
-            });
+            res.status(400).json({ message: 'Неправильный или просроченный код подтверждения' });
             return;
         }
 
@@ -57,15 +70,11 @@ authRouter.get('/confirm-email', async (req: RequestWithQuery<ConfirmEmailDto>, 
     const ok = await userService.confirmEmail({ email, code });
 
     if (!ok) {
-        res.status(400).json({
-            message: 'Неправильная или просроченная ссылка подтверждентя',
-        });
+        res.status(400).json({ message: 'Неправильная или просроченная ссылка подтверждения' });
         return;
     }
 
-    res.status(200).json({
-        message: 'Email подтвержден. Вы можете авторизоваться.',
-    });
+    res.status(200).json({ message: 'Email подтвержден. Вы можете авторизоваться.' });
 });
 
 authRouter.post(
@@ -76,20 +85,18 @@ authRouter.post(
 
         if (!tokens) {
             res.status(401).json({
-                message: 'Email не подтвержден',
+                message: 'Неверный email или пароль, либо email не подтверждён',
             });
             return;
         }
 
-        res.status(200).json({ 
-            accessToken: tokens.accessToken,
-            refreshToken: tokens.refreshToken
-        });
+        setTokenCookies(res, tokens.accessToken, tokens.refreshToken);
+        res.status(200).json({ message: 'Успешная авторизация' });
     },
 );
 
 authRouter.post('/refresh', async (req: Request, res: Response) => {
-    const refreshToken = req.body.refreshToken || req.headers['x-refresh-token'];
+    const refreshToken = req.cookies?.refreshToken;
 
     if (!refreshToken) {
         res.status(401).json({ message: 'Нет refresh токена' });
@@ -99,20 +106,19 @@ authRouter.post('/refresh', async (req: Request, res: Response) => {
     const tokens = await userService.refresh(refreshToken);
 
     if (!tokens) {
-        res.status(401).json({
-            message: 'Невалидный или просроченный refresh token',
-        });
+        clearTokenCookies(res);
+        res.status(401).json({ message: 'Невалидный или просроченный refresh token' });
         return;
     }
 
-    res.status(200).json({ 
-        accessToken: tokens.accessToken,
-        refreshToken: tokens.refreshToken
-    });
+    setTokenCookies(res, tokens.accessToken, tokens.refreshToken);
+    res.status(200).json({ message: 'Токены обновлены' });
 });
 
-authRouter.post('/logout', authMiddleware, async (req: Request, _res: Response) => {
+authRouter.post('/logout', authMiddleware, async (req: Request, res: Response) => {
     await userService.logout(req.user!.userId);
+    clearTokenCookies(res);
+    res.status(200).json({ message: 'Выход выполнен' });
 });
 
 authRouter.get('/me', authMiddleware, async (req: Request, res: Response) => {
@@ -130,6 +136,8 @@ authRouter.get('/me', authMiddleware, async (req: Request, res: Response) => {
         role: user.role,
         createdAt: user.createdAt,
         isConfirmed: user.emailConfirmation.isConfirmed,
+        streak: user.longestStreak,
+        xp: user.totalXpEarned,
     });
 });
 

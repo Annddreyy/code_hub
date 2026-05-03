@@ -13,19 +13,24 @@
             />
         </Teleport>
         <Hero
-            v-if="userStats"
-            :user-stats="userStats"
+            v-if="stats"
+            :stats="stats"
         />
         <Tabs
-            :total-challenges-count="challengesStore.challenges.length"
+            :total-challenges-count="challengesStore.challenges?.length"
             @set-difficulty="updateDifficulty"
-            @set-is-solved="updateIsSolved"
         />
         <div id="searchbar" />
         <div id="topics" />
         <div id="statuses" />
         <ChallengesTable :challenges="challengesStore.challenges" />
         <ChallengesList :challenges="challengesStore.challenges" />
+        <Paginator
+            :current-page="currentPage"
+            :total-pages="totalPages"
+            :sibling-count="SUBLING_COUNT"
+            @update:current-page="debounceUpdateCurrentPage"
+        />
     </main>
 </template>
 
@@ -38,25 +43,42 @@ import {
     type Status,
     useChallengesStore,
 } from '@/entities/challenge';
-import { userApi } from '@/entities/user';
+import { Paginator } from '@/shared/ui';
+import { debounce } from 'lodash';
 
-const isMounted = ref(false);
+const SUBLING_COUNT = 5;
+
+const cookieHeaders = import.meta.server ? useRequestHeaders(['cookie']) : {};
 
 const challengesStore = useChallengesStore();
 
+const isMounted = ref(false);
 const filters = ref<Filters>({});
+const currentPage = ref(1);
 
-await useAsyncData('challenges', () => challengesStore.getChallenges(filters.value), {
-    watch: [filters],
+const { data } = await useAsyncData(
+    'challenges',
+    () => challengesStore.getChallenges(filters.value, cookieHeaders),
+    {
+        watch: [filters],
+        deep: true,
+    },
+);
+
+const totalPages = computed(() => {
+    if (!data.value) {
+        return 0;
+    }
+    return Math.ceil(data.value.totalCount / data.value.pageSize);
 });
 
-const [userStatsResult, topicsResult] = await Promise.all([
-    useAsyncData('userStats', () => userApi.getChallengesStatistics()),
-    useAsyncData('topics', () => challengesApi.getTopics()),
+const [topicsResult, statsResult] = await Promise.all([
+    useAsyncData('topics', () => challengesApi.getTopics(cookieHeaders)),
+    useAsyncData('stats', () => challengesApi.getStats(cookieHeaders)),
 ]);
 
-const userStats = userStatsResult.data;
 const topics = topicsResult.data;
+const stats = statsResult.data;
 
 onMounted(() => {
     isMounted.value = true;
@@ -66,24 +88,50 @@ useSeoMeta({
     title: 'Задачи',
 });
 
-const updateDifficulty = (difficulty: Difficulty | undefined) => {
-    filters.value.difficulty = difficulty;
+const updateCurrentPage = (page: number) => {
+    currentPage.value = page;
+    filters.value = {
+        ...filters.value,
+        page,
+    };
 };
 
-const updateIsSolved = (isSolved: boolean) => {
-    filters.value.isSolved = isSolved;
+const debounceUpdateCurrentPage = debounce(updateCurrentPage, 500);
+
+const updateDifficulty = (difficulty: Difficulty | undefined) => {
+    currentPage.value = 1;
+    filters.value = {
+        ...filters.value,
+        difficulty,
+        page: currentPage.value,
+    };
 };
 
 const updateTitle = (title?: string) => {
-    filters.value.title = title;
+    currentPage.value = 1;
+    filters.value = {
+        ...filters.value,
+        title,
+        page: currentPage.value,
+    };
 };
 
 const updateStatuses = (statuses: Status[]) => {
-    filters.value.statuses = statuses;
+    currentPage.value = 1;
+    filters.value = {
+        ...filters.value,
+        statuses,
+        page: currentPage.value,
+    };
 };
 
 const updateTopics = (topics: string[]) => {
-    filters.value.topics = topics;
+    currentPage.value = 1;
+    filters.value = {
+        ...filters.value,
+        topics,
+        page: currentPage.value,
+    };
 };
 </script>
 
@@ -93,7 +141,7 @@ main {
     flex-direction: column;
     flex: 1;
 
-    margin-bottom: 70px;
+    margin-bottom: 50px;
 
     overflow-y: auto;
 

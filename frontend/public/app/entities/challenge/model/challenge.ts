@@ -1,13 +1,13 @@
 export interface Challenge {
     id: string;
     title: string;
-    topic: string;
+    topics: string[];
     difficulty: Difficulty;
-    status: Status;
-    tags: string[];
-    accept: number;
+    status?: Status;
+    themes: string[];
+    accept?: number;
     xpReward: number;
-    userMeta: {
+    userMeta?: {
         solvedAt?: Date;
     };
 }

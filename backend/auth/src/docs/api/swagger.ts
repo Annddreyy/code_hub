@@ -8,7 +8,7 @@ export const swaggerDocument = {
     servers: [{ url: "/api" }],
     components: {
         securitySchemes: {
-            bearerAuth: { type: "http", scheme: "bearer", bearerFormat: "JWT" },
+            bearerAuth: { type: "http",scheme: "bearer", bearerFormat: "JWT" },
         },
         schemas: {
             RegisterDto: {

@@ -22,10 +22,11 @@ export const connectDB = async (): Promise<void> => {
     const client = await pool.connect();
     try {
         await client.query('SELECT 1');
-        logger.info(
-            `Connected to PostgreSQL at ${settings.db.host}:${settings.db.port}/${settings.db.database}`,
-        );
     } finally {
         client.release();
     }
+
+    logger.info(
+        `Connected to PostgreSQL at ${settings.db.host}:${settings.db.port}/${settings.db.database}`,
+    );
 };

@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 export const instance = axios.create({
-    baseURL: 'http://localhost:8001/api/auth/',
+    baseURL: 'http://localhost:8080/api/auth/',
+    withCredentials: true,
 });
 
 export type ApiError = {
