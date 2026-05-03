@@ -1,6 +1,5 @@
 import { Router, Request, Response } from 'express';
 import { onboardingService, OnboardingData } from '@/internal/domain/onboarding';
-import { authMiddleware } from '@/internal/api/middleware/auth.middleware';
 import { validateBody } from '@/internal/api/middleware/validate.middleware';
 
 export const onboardingRouter = Router();

@@ -24,7 +24,5 @@ const { modules } = defineProps<{
     completedLessons: number;
 }>();
 
-const totalLessons = computed(() =>
-    modules.reduce((sum, module) => sum + module.lessons.length, 0),
-);
+const totalLessons = computed(() => 10);
 </script>

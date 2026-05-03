@@ -3,7 +3,7 @@
         <div class="stats-card__top">
             <span class="stats-card__icon">{{ icon }}</span>
             <span
-                v-if="userMeta.prevCount"
+                v-if="userMeta?.prevCount"
                 class="stats-card__badge"
             >
                 +{{ userMeta.currentCount - userMeta.prevCount }} сегодня

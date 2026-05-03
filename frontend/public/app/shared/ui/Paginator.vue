@@ -124,11 +124,15 @@ const visiblePages = computed(() => {
 
 <style scoped lang="scss">
 .paginator {
+    width: 100%;
+    margin-top: auto;
+
     display: inline-flex;
+    justify-content: center;
     align-items: center;
     gap: 6px;
 
-    padding: 8px;
+    padding: 16px 12px;
 
     font-family: 'DM Mono', monospace;
 

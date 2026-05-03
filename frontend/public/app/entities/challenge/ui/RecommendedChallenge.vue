@@ -4,7 +4,7 @@
             {{ DIFFICULTY_TITLES.find((diff) => diff.value === difficulty)?.title }}
         </span>
         <span class="challenge__name">{{ title }}</span>
-        <span class="challenge__tag">{{ topic }}</span>
+        <span class="challenge__tag">{{ topicsString }}</span>
         <span class="challenge__xp">+{{ xpReward }} XP</span>
         <button class="challenge__solve">Решить →</button>
     </div>
@@ -14,7 +14,9 @@
 import type { Challenge } from '../model/challenge';
 import { DIFFICULTY_TITLES } from '../model/useChallenges';
 
-defineProps<Challenge>();
+const { topics } = defineProps<Challenge>();
+
+const topicsString = computed(() => topics.join(' · '));
 </script>
 
 <style lang="scss" scoped>

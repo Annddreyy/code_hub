@@ -24,6 +24,7 @@
 
     &__sidebar {
         width: 220px;
+        height: 100vh;
         flex-shrink: 0;
         padding: 18px 12px 24px;
 

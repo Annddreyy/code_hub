@@ -32,13 +32,13 @@
                 </span>
             </div>
             <div
-                v-if="userMeta.startCourse"
+                v-if="userMeta?.startCourse"
                 class="progress"
             >
                 <div class="progress__head">
                     <span class="progress__pct">{{ courseProgress }}%</span>
                     <span class="progress__num">
-                        {{ userMeta.currentLesson }}/{{ lessonsCount }}
+                        {{ userMeta?.currentLesson }}/{{ lessonsCount }}
                     </span>
                 </div>
                 <div class="progress__bar">
@@ -48,19 +48,20 @@
                     />
                 </div>
             </div>
-            <button
+            <NuxtLink
+                :to="`/courses/${id}`"
                 :class="[
                     'course-card__btn',
                     {
-                        'course-card__btn--continue': userMeta.startCourse,
-                        'course-card__btn--start': !userMeta.startCourse,
+                        'course-card__btn--continue': userMeta?.startCourse,
+                        'course-card__btn--start': !userMeta?.startCourse,
                     },
                 ]"
             >
-                <span v-if="userMeta.startCourse">Продолжить</span>
+                <span v-if="userMeta?.startCourse">Продолжить</span>
                 <span v-else>Начать</span>
                 →
-            </button>
+            </NuxtLink>
         </div>
     </div>
 </template>
@@ -70,8 +71,8 @@ import type { Course, Difficulty, Status } from '../model/course';
 
 const { modules, userMeta } = defineProps<Course>();
 
-const lessonsCount = computed(() =>
-    modules.reduce((sum, module) => sum + module.lessons.length, 0),
+const lessonsCount = computed(
+    () => modules?.reduce((sum, module) => sum + module.lessons.length, 0) || 0,
 );
 const courseProgress = computed(() =>
     Math.round((Number(userMeta.currentLesson) / lessonsCount.value) * 100),
@@ -302,6 +303,8 @@ const getStatusString = (status: Status) => {
         font-family: var(--sans);
         font-size: 12px;
         font-weight: 700;
+        text-align: center;
+        text-decoration: none;
         color: var(--text);
 
         border: 1px solid var(--b2);
@@ -358,7 +361,7 @@ const getStatusString = (status: Status) => {
             background: rgba(227, 179, 65, 0.1);
         }
 
-        &--hard {
+        &--advanced {
             color: var(--red);
             background: rgba(255, 92, 114, 0.1);
         }

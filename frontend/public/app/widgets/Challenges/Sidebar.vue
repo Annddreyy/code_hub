@@ -98,7 +98,9 @@ const teleportDisabled = ref(true);
 const selectedTopics = ref<string[]>([]);
 const selectedStatuses = ref<Status[]>([]);
 
-watchEffect(() => emit('setTitle', searchText.value));
+watch(searchText, (value) => {
+    emit('setTitle', value);
+});
 
 const handleResize = () => {
     teleportDisabled.value = window.innerWidth > MOBILE_BREAKPOINT;
@@ -124,6 +126,7 @@ const toggleTopic = (topic: string) => {
             selectedTopics.value = [topic];
         }
     }
+
     emit('setTopics', selectedTopics.value);
 };
 

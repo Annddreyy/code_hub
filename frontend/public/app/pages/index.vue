@@ -24,8 +24,8 @@
                 :active-course="activeCourse"
             />
             <CourseStrip
-                v-if="coursesStore.userCourses.length"
-                :user-courses="coursesStore.userCourses.slice(1, SHOWING_USER_COURSES_COUNT)"
+                v-if="coursesStore.courses.length"
+                :user-courses="coursesStore.courses.slice(1, SHOWING_USER_COURSES_COUNT)"
             />
         </div>
         <Heatmap
@@ -67,6 +67,8 @@ const SHOWING_CHALLENGES_COUNT = 6;
 const SHOWING_ACHIEVEMENTS_COUNT = 10;
 const SHOWING_USER_COURSES_COUNT = 3;
 
+const cookieHeaders = import.meta.server ? useRequestHeaders(['cookie']) : {};
+
 const { currentUser } = useUserStore();
 
 const coursesStore = useCoursesStore();
@@ -82,7 +84,7 @@ const [
     heatmapResult,
     goalsResult,
 ] = await Promise.all([
-    useAsyncData('courses', () => coursesStore.getCourses()),
+    useAsyncData('courses', () => coursesStore.getCourses({ inProgress: true }, cookieHeaders)),
     useAsyncData('stats', () => statApi.getStats()),
     useAsyncData('challenges', () => challengesStore.getChallenges()),
     useAsyncData('achievements', () => achievementApi.getAchievements()),
@@ -95,7 +97,7 @@ const stats = statsResult.data;
 const heatmapCells = heatmapResult.data;
 const goals = goalsResult.data;
 
-const activeCourse = computed(() => coursesStore.userCourses[0]);
+const activeCourse = computed(() => coursesStore.courses[0]);
 
 onMounted(() => {
     isMounted.value = true;

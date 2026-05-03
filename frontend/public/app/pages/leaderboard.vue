@@ -7,10 +7,10 @@
             <Sidebar @select-period="selectPeriod" />
         </Teleport>
         <HeroTop
-            v-if="leaderboardUsers && leaderboardUsers.length >= 3"
-            :first-place="leaderboardUsers[0]!"
-            :second-place="leaderboardUsers[1]!"
-            :third-place="leaderboardUsers[2]!"
+            v-if="podiumUsers"
+            :first-place="podiumUsers[0]!"
+            :second-place="podiumUsers[1]!"
+            :third-place="podiumUsers[2]!"
         />
         <div id="time-period" />
         <LeaderboardTable
@@ -31,8 +31,9 @@
 </template>
 
 <script setup lang="ts">
-import { HeroTop, LeaderboardTable, Paginator, Sidebar } from '@/widgets/Leaderboard';
+import { HeroTop, LeaderboardTable, Sidebar } from '@/widgets/Leaderboard';
 import { userApi, type LeaderboardPeriod } from '@/entities/user';
+import { Paginator } from '@/shared/ui';
 
 const SUBLING_COUNT = 5;
 
@@ -43,13 +44,19 @@ const currentPage = ref(1);
 
 const { data: leaderboardResult } = await useAsyncData(
     'leaderboard',
-    () => userApi.getLeaderboardStatistics(currentPage.value),
+    () => userApi.getLeaderboardStatistics(currentPage.value, 'all'),
     { watch: [currentPage] },
 );
 
+const { data: podiumResult } = await useAsyncData('podium', () => userApi.getPodiumUsers('all'));
+
 const leaderboardUsers = leaderboardResult.value?.users;
-const totalUsers = leaderboardResult.value?.totalUsers;
+const totalUsers = leaderboardResult.value?.totalCount;
 const pageSize = leaderboardResult.value?.pageSize;
+
+const podiumUsers = podiumResult.value;
+
+console.log(podiumResult);
 
 const totalPages = computed(() => (totalUsers && pageSize ? Math.ceil(totalUsers / pageSize) : 0));
 
