@@ -9,4 +9,10 @@ export default defineNuxtConfig({
     },
 
     modules: ['@nuxt/eslint'],
+
+    app: {
+        head: {
+            link: [{ rel: 'icon', type: 'image/svg+xml', href: '/icon.svg' }],
+        },
+    },
 });
