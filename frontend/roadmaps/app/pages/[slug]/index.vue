@@ -14,7 +14,7 @@
             :status="currentNode?.node?.status || NodeStatus.ACTIVE"
             :title="currentNode?.node?.title || 'Узел карты не загрузился'"
             :description="currentNode?.node?.description || '-'"
-            :icon="currentNode?.node.icon || ''"
+            :icon="currentNode?.node?.icon || ''"
             :stats="currentNode?.stats || []"
             :lessons="currentNode?.lessons || []"
         />

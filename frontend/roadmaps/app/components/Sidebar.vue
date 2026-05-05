@@ -27,7 +27,10 @@ const { currentNode, totalNodesCount } = defineProps<{
     totalNodesCount: number;
 }>();
 
-const progress = computed(() => (currentNode / totalNodesCount) * 100);
+const progress = computed(() => {
+    if (!totalNodesCount || totalNodesCount === 0) return 0;
+    return (currentNode / totalNodesCount) * 100;
+});
 </script>
 
 <style lang="scss" scoped>
