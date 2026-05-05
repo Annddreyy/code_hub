@@ -61,7 +61,7 @@
 </template>
 
 <script setup lang="ts">
-import { userApi } from '@/api';
+import { userApi } from '@cover/api';
 import { links } from '../configs/header';
 
 const cookieHeaders = import.meta.server ? useRequestHeaders(['cookie']) : {};
