@@ -75,7 +75,26 @@ export interface NodeLesson {
     xpReward?: number;
 }
 
-export const ROADMAP_DATA: RoadmapData = {
+export enum RoadmapStatus {
+    ACTIVE = 'active',
+    COMPLETED = 'completed',
+    NEW = 'new',
+    LOCKED = 'locked',
+}
+
+export interface Roadmap {
+    id: string;
+    title: string;
+    description: string;
+    icon: string;
+    tags: string[];
+    status: RoadmapStatus;
+    xp: number;
+    currentNode: number;
+    totalNodes: number;
+}
+
+const ROADMAP_DATA: RoadmapData = {
     title: 'Frontend Developer',
     subtitle: 'Vue + Nuxt',
     totalNodes: 25,
@@ -83,6 +102,249 @@ export const ROADMAP_DATA: RoadmapData = {
         completedNodes: 12,
     },
 };
+
+const ROADMAPS: Roadmap[] = [
+    {
+        id: '1',
+        title: 'JavaScript Fundamentals',
+        description:
+            'Изучи основы JavaScript: переменные, функции, циклы, массивы и объекты. Этот курс даст тебе прочную базу для изучения любых фреймворков.',
+        icon: '🟨',
+        tags: ['JavaScript', 'Basics', 'Programming'],
+        status: RoadmapStatus.ACTIVE,
+        xp: 500,
+        currentNode: 7,
+        totalNodes: 20,
+    },
+    {
+        id: '2',
+        title: 'React Mastery',
+        description:
+            'Освой React с нуля до профи: компоненты, хуки, состояние, контекст и маршрутизация. Научись создавать современные одностраничные приложения.',
+        icon: '⚛️',
+        tags: ['React', 'Frontend', 'Hooks'],
+        status: RoadmapStatus.ACTIVE,
+        xp: 750,
+        currentNode: 12,
+        totalNodes: 25,
+    },
+    {
+        id: '3',
+        title: 'TypeScript Deep Dive',
+        description:
+            'Погрузись в TypeScript: статическая типизация, интерфейсы, дженерики и утилитарные типы. Улучши качество своего кода и избегай ошибок.',
+        icon: '📘',
+        tags: ['TypeScript', 'Types', 'Advanced'],
+        status: RoadmapStatus.NEW,
+        xp: 600,
+        currentNode: 0,
+        totalNodes: 18,
+    },
+    {
+        id: '4',
+        title: 'Node.js Backend',
+        description:
+            'Создавай серверные приложения на Node.js: Express, маршрутизация, middleware, обработка запросов и работа с базами данных.',
+        icon: '🟢',
+        tags: ['Node.js', 'Backend', 'Express'],
+        status: RoadmapStatus.ACTIVE,
+        xp: 650,
+        currentNode: 5,
+        totalNodes: 22,
+    },
+    {
+        id: '5',
+        title: 'CSS & Tailwind',
+        description:
+            'Изучи современные подходы к стилизации: от основ CSS до утилитарного фреймворка Tailwind. Создавай красивые и адаптивные интерфейсы.',
+        icon: '🎨',
+        tags: ['CSS', 'Tailwind', 'Styling'],
+        status: RoadmapStatus.COMPLETED,
+        xp: 400,
+        currentNode: 15,
+        totalNodes: 15,
+    },
+    {
+        id: '6',
+        title: 'Git & GitHub',
+        description:
+            'Освой систему контроля версий Git: коммиты, ветки, слияния, разрешение конфликтов. Научись работать в команде через GitHub.',
+        icon: '📦',
+        tags: ['Git', 'Version Control', 'Collaboration'],
+        status: RoadmapStatus.COMPLETED,
+        xp: 300,
+        currentNode: 12,
+        totalNodes: 12,
+    },
+    {
+        id: '7',
+        title: 'Next.js Framework',
+        description:
+            'Изучи фреймворк Next.js для React: серверный рендеринг, генерация статических сайтов, API-роуты и оптимизация производительности.',
+        icon: '▲',
+        tags: ['Next.js', 'React', 'SSR'],
+        status: RoadmapStatus.NEW,
+        xp: 800,
+        currentNode: 0,
+        totalNodes: 30,
+    },
+    {
+        id: '8',
+        title: 'Python Data Science',
+        description:
+            'Погрузись в науку о данных с Python: библиотеки Pandas, NumPy, Matplotlib. Научись анализировать данные и строить визуализации.',
+        icon: '🐍',
+        tags: ['Python', 'Data Science', 'Pandas'],
+        status: RoadmapStatus.LOCKED,
+        xp: 900,
+        currentNode: 0,
+        totalNodes: 28,
+    },
+    {
+        id: '9',
+        title: 'Docker & Kubernetes',
+        description:
+            'Освой контейнеризацию с Docker и оркестрацию с Kubernetes. Узнай, как упаковывать и масштабировать приложения в продакшене.',
+        icon: '🐳',
+        tags: ['Docker', 'Kubernetes', 'DevOps'],
+        status: RoadmapStatus.LOCKED,
+        xp: 1000,
+        currentNode: 0,
+        totalNodes: 25,
+    },
+    {
+        id: '10',
+        title: 'SQL Databases',
+        description:
+            'Изучи реляционные базы данных: SQL, PostgreSQL, MySQL. Научись писать сложные запросы, работать с JOIN и оптимизировать производительность.',
+        icon: '🗄️',
+        tags: ['SQL', 'PostgreSQL', 'MySQL'],
+        status: RoadmapStatus.ACTIVE,
+        xp: 450,
+        currentNode: 8,
+        totalNodes: 16,
+    },
+    {
+        id: '11',
+        title: 'RESTful APIs',
+        description:
+            'Научись проектировать и создавать RESTful API: эндпоинты, методы HTTP, статус-коды, авторизация и документация Swagger.',
+        icon: '🔌',
+        tags: ['API', 'REST', 'HTTP'],
+        status: RoadmapStatus.ACTIVE,
+        xp: 550,
+        currentNode: 6,
+        totalNodes: 14,
+    },
+    {
+        id: '12',
+        title: 'GraphQL Basics',
+        description:
+            'Освой GraphQL — современный язык запросов для API. Изучи схемы, резолверы, мутации и подписки для гибкой работы с данными.',
+        icon: '📡',
+        tags: ['GraphQL', 'Apollo', 'Query'],
+        status: RoadmapStatus.NEW,
+        xp: 700,
+        currentNode: 0,
+        totalNodes: 20,
+    },
+    {
+        id: '13',
+        title: 'Web Security',
+        description:
+            'Изучи основы веб-безопасности: HTTPS, CORS, XSS, CSRF, SQL-инъекции. Научись защищать приложения от распространённых атак.',
+        icon: '🔒',
+        tags: ['Security', 'Auth', 'HTTPS'],
+        status: RoadmapStatus.LOCKED,
+        xp: 850,
+        currentNode: 0,
+        totalNodes: 20,
+    },
+    {
+        id: '14',
+        title: 'Testing with Jest',
+        description:
+            'Освой тестирование JavaScript-приложений с Jest: юнит-тесты, интеграционные тесты, моки, снапшоты и покрытие кода.',
+        icon: '🧪',
+        tags: ['Testing', 'Jest', 'Unit Tests'],
+        status: RoadmapStatus.COMPLETED,
+        xp: 350,
+        currentNode: 10,
+        totalNodes: 10,
+    },
+    {
+        id: '15',
+        title: 'Vue.js Essentials',
+        description:
+            'Изучи Vue.js: реактивность, компоненты, директивы, композиция API, роутинг и управление состоянием с Pinia.',
+        icon: '💚',
+        tags: ['Vue.js', 'Composition API', 'Frontend'],
+        status: RoadmapStatus.ACTIVE,
+        xp: 500,
+        currentNode: 4,
+        totalNodes: 18,
+    },
+    {
+        id: '16',
+        title: 'Angular Framework',
+        description:
+            'Освой мощный фреймворк Angular: компоненты, сервисы, dependency injection, RxJS, реактивные формы и модули.',
+        icon: '🅰️',
+        tags: ['Angular', 'RxJS', 'TypeScript'],
+        status: RoadmapStatus.NEW,
+        xp: 750,
+        currentNode: 0,
+        totalNodes: 24,
+    },
+    {
+        id: '17',
+        title: 'MongoDB & NoSQL',
+        description:
+            'Изучи документо-ориентированные базы данных на примере MongoDB: схемы, индексы, агрегации и масштабирование.',
+        icon: '🍃',
+        tags: ['MongoDB', 'NoSQL', 'Database'],
+        status: RoadmapStatus.ACTIVE,
+        xp: 480,
+        currentNode: 5,
+        totalNodes: 15,
+    },
+    {
+        id: '18',
+        title: 'AWS Cloud',
+        description:
+            'Погрузись в облачные технологии AWS: EC2, S3, Lambda, RDS, IAM. Научись деплоить и масштабировать приложения в облаке.',
+        icon: '☁️',
+        tags: ['AWS', 'Cloud', 'DevOps'],
+        status: RoadmapStatus.LOCKED,
+        xp: 1100,
+        currentNode: 0,
+        totalNodes: 35,
+    },
+    {
+        id: '19',
+        title: 'Web Performance',
+        description:
+            'Изучи методы оптимизации производительности веб-приложений: код-сплиттинг, ленивая загрузка, кэширование и Core Web Vitals.',
+        icon: '⚡',
+        tags: ['Performance', 'Optimization', 'Lighthouse'],
+        status: RoadmapStatus.NEW,
+        xp: 600,
+        currentNode: 0,
+        totalNodes: 16,
+    },
+    {
+        id: '20',
+        title: 'Mobile React Native',
+        description:
+            'Освой разработку кросс-платформенных мобильных приложений на React Native: навигация, анимации, нативные модули и публикация в магазины.',
+        icon: '📱',
+        tags: ['React Native', 'Mobile', 'Cross-platform'],
+        status: RoadmapStatus.LOCKED,
+        xp: 950,
+        currentNode: 0,
+        totalNodes: 26,
+    },
+];
 
 const ROADMAPS_DATA: {
     config: RoadmapConfig;
@@ -254,7 +516,18 @@ const ROADMAPS_DATA: {
     ],
 };
 
-export const NODE: {
+const FILTERS = [
+    '🚀 В процессе',
+    '✅ Завершённые',
+    '⚡ Новые',
+    '🌐 Frontend',
+    '⚙️ Backend',
+    '🧮 Алгоритмы',
+    '🗄️ Базы данных',
+    '🔒 Безопасность',
+];
+
+const NODE: {
     node: RoadmapNode;
     stats: Stat[];
     lessons: NodeLesson[];
@@ -323,7 +596,27 @@ export const NODE: {
     ],
 };
 
+const STATS = {
+    inProgressCount: 10,
+    completedCount: 12,
+    xpEarned: 1250,
+    nodesCompleted: 12,
+    roadmapsCount: 1,
+};
+
 export const roadmapsApi = {
+    getRoadmaps: async () => {
+        return Promise.resolve(ROADMAPS);
+    },
+
+    getFilters: async () => {
+        return Promise.resolve(FILTERS);
+    },
+
+    getStats: async () => {
+        return Promise.resolve(STATS);
+    },
+
     getRoadmap: async () => {
         return Promise.resolve(ROADMAP_DATA);
     },
