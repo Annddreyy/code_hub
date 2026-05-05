@@ -7,11 +7,11 @@
             </div>
             <div class="challenge-card__tags">
                 <span
-                    v-for="tag in tags"
-                    :key="tag"
+                    v-for="theme in themes"
+                    :key="theme"
                     class="challenge-card__tag"
                 >
-                    {{ tag }}
+                    {{ theme }}
                 </span>
             </div>
             <div class="challenge-card__meta">

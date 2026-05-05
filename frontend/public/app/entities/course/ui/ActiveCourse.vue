@@ -42,12 +42,10 @@ const { course } = defineProps<{
     course: Course;
 }>();
 
-const currentLesson = computed(() => course.userMeta.currentLesson);
-const currentModule = computed(() => course.userMeta.currentModule);
+const currentLesson = computed(() => course.userMeta?.currentLesson);
+const currentModule = computed(() => course.userMeta?.currentModule);
 
-const totalLessonsCount = computed(() =>
-    course.modules.reduce((sum, module) => sum + module.lessons.length, 0),
-);
+const totalLessonsCount = computed(() => 10);
 const currentCourseProgress = computed(() => {
     const currentLessonValue = currentLesson.value;
     const totalLessons = totalLessonsCount.value;

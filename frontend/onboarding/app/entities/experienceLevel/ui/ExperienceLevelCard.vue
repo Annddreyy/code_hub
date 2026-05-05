@@ -4,10 +4,7 @@
         @click="toggleSelect"
     >
         <div class="checkmark">✓</div>
-        <img
-            class="level-card__icon"
-            :src="icon"
-        />
+        <span class="level-card__icon">{{ icon }}</span>
         <div class="level-card__body">
             <div class="level-card__title">{{ title }}</div>
             <div class="level-card__description">{{ description }}</div>

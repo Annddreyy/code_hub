@@ -3,8 +3,8 @@
         <td class="challenge-row__idx">{{ id }}</td>
         <td class="challenge-row__status">{{ statusIcon }}</td>
         <td class="challenge-row__name">
-            {{ title }}
-            <span class="challenge-row__topic">{{ topic }}</span>
+            <NuxtLink :to="`/challenges/${id}`">{{ title }}</NuxtLink>
+            <span class="challenge-row__topic">{{ topicsString }}</span>
         </td>
         <td class="challenge-row__difficulty">
             <span
@@ -18,23 +18,23 @@
         </td>
         <td class="challenge-row__tags">
             <span
-                v-for="tag in tags"
-                :key="tag"
+                v-for="theme in themes"
+                :key="theme"
                 class="challenge-row__tag"
             >
-                {{ tag }}
+                {{ theme }}
             </span>
         </td>
         <td class="challenge-row__acc">{{ accept }}%</td>
-        <td class="challenge-row__xp">+{{ xpReward }}</td>
+        <td class="challenge-row__xp">+{{ xpReward }} XP</td>
         <td class="challenge-row__action">
             <button
                 :class="[
                     'challenge-row__solve-btn',
-                    { 'challenge-row__solve-btn--solved': userMeta.solvedAt },
+                    { 'challenge-row__solve-btn--solved': userMeta?.solvedAt },
                 ]"
             >
-                {{ userMeta.solvedAt ? 'Просмотреть ↩' : 'Решить →' }}
+                {{ userMeta?.solvedAt ? 'Просмотреть ↩' : 'Решить →' }}
             </button>
         </td>
     </tr>
@@ -44,7 +44,7 @@
 import type { Challenge } from '../model/challenge';
 import { DIFFICULTY_TITLES } from '../model/useChallenges';
 
-const { tags, status } = defineProps<Challenge>();
+const { status, topics } = defineProps<Challenge>();
 const statusIcon = computed(() => {
     switch (status) {
         case 'done':
@@ -55,6 +55,8 @@ const statusIcon = computed(() => {
             return '·';
     }
 });
+
+const topicsString = computed(() => topics?.join(' · '));
 </script>
 
 <style lang="scss" scoped>
@@ -81,14 +83,17 @@ const statusIcon = computed(() => {
         max-width: 220px;
         padding: 12px 8px;
 
-        font-size: 13px;
-        font-weight: 700;
-        color: var(--text);
+        :deep(a) {
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--text);
 
-        cursor: pointer;
+            cursor: pointer;
 
-        &:hover {
-            color: var(--blue);
+            &:hover {
+                color: var(--blue);
+            }
         }
     }
 

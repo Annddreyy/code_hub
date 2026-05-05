@@ -25,19 +25,28 @@ export const DIFFICULTY_TITLES: {
 
 export const useChallengesStore = defineStore('challenges', () => {
     const challenges = ref<Challenge[]>([]);
+    const totalCount = ref(0);
+    const pageSize = ref(20);
+
     const isLoading = ref(false);
     const errorMessage = ref('');
 
-    const getChallenges = async (filters: Filters = {}) => {
+    const getChallenges = async (filters: Filters = {}, headers = {}) => {
         isLoading.value = true;
 
         try {
-            challenges.value = await challengesApi.getChallenges(filters);
+            const response = await challengesApi.getChallenges(filters, headers);
+            challenges.value = response.challenges;
+            totalCount.value = response.totalCount;
+            pageSize.value = response.pageSize;
+            return response;
         } catch (err: unknown) {
             errorMessage.value = err as string;
         } finally {
             isLoading.value = false;
         }
+
+        return null;
     };
 
     return { challenges, getChallenges };

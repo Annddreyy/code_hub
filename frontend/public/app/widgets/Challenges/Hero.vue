@@ -1,55 +1,51 @@
 <template>
     <div class="hero">
-        <div class="hero__lbl">// Задачи_{{ totalChallengesCount }}</div>
+        <div class="hero__lbl">// Задачи_{{ stats.totalCount }}</div>
         <div class="hero__title">Задачи по программированию</div>
         <p class="hero__sub">
-            {{ totalChallengesCount }} задач от легких до сложных. Решай, Отправляй и Поднимайся по
+            {{ stats.totalCount }} задач от легких до сложных. Решай, Отправляй и Поднимайся по
             таблице лидеров.
         </p>
         <div class="hero__stats">
             <div class="hero__stat">
-                <span class="hero__stat-value">{{ totalChallengesCount }}</span>
+                <span class="hero__stat-value">{{ stats.totalCount }}</span>
                 всего задач
             </div>
             <div class="hero__stat">
-                <span class="hero__stat-value">{{ totalEasyChallenges }}</span> легких
+                <span class="hero__stat-value">{{ stats.easyCount }}</span> легких
             </div>
             <div class="hero__stat">
-                <span class="hero__stat-value">{{ totalMediumChallenges }}</span> средних
+                <span class="hero__stat-value">{{ stats.mediumCount }}</span> средних
             </div>
             <div class="hero__stat">
-                <span class="hero__stat-value">{{ totalHardChallenges }}</span> сложных
+                <span class="hero__stat-value">{{ stats.hardCount }}</span> сложных
             </div>
         </div>
         <div class="user-progress">
             <div class="user-progress__card">
                 <div class="user-progress__val user-progress__val--green">
-                    {{ userStats?.solvedCount }}
+                    {{ stats.completedCount }}
                 </div>
                 <div class="user-progress__lbl">Решено</div>
             </div>
             <div class="user-progress__card">
                 <div class="user-progress__val user-progress__val--yellow">
-                    {{ userStats?.attemptedCount }}
+                    {{ stats.pendingCount }}
                 </div>
                 <div class="user-progress__lbl">Попытки</div>
             </div>
             <div class="user-progress__card">
                 <div class="user-progress__val user-progress__val--blue">
-                    {{ userStats?.completionPercent }}%
+                    {{ stats.completionPercentage }}%
                 </div>
                 <div class="user-progress__lbl">Завершено</div>
             </div>
             <div class="user-progress__card">
-                <div class="user-progress__val user-progress__val--orange">
-                    {{ userStats?.acceptancePercent }}%
-                </div>
+                <div class="user-progress__val user-progress__val--orange">{{ 12 }}%</div>
                 <div class="user-progress__lbl">Принято</div>
             </div>
             <div class="user-progress__card">
-                <div class="user-progress__val user-progress__val--purple">
-                    #{{ userStats?.globalRank }}
-                </div>
+                <div class="user-progress__val user-progress__val--purple">#{{ 243 }}</div>
                 <div class="user-progress__lbl">Место в мире</div>
             </div>
         </div>
@@ -57,25 +53,11 @@
 </template>
 
 <script setup lang="ts">
-import { useChallengesStore } from '@/entities/challenge';
-import type { ChallengesStatistic } from '@/entities/user';
+import type { StatsResponse } from '@/entities/challenge';
 
 defineProps<{
-    userStats: ChallengesStatistic;
+    stats: StatsResponse;
 }>();
-
-const { challenges } = useChallengesStore();
-
-const totalChallengesCount = computed(() => challenges.length);
-const totalEasyChallenges = computed(
-    () => challenges.filter((challenge) => challenge.difficulty === 'easy').length,
-);
-const totalMediumChallenges = computed(
-    () => challenges.filter((challenge) => challenge.difficulty === 'medium').length,
-);
-const totalHardChallenges = computed(
-    () => challenges.filter((challenge) => challenge.difficulty === 'hard').length,
-);
 </script>
 
 <style lang="scss" scoped>

@@ -22,11 +22,14 @@
             </div>
             <div class="terminal__line">&nbsp;</div>
             <div class="terminal__line">
-                <span class="terminal__prompt"
-                    ><span class="hide-on-tablet">user@codehub:</span>~$</span
-                ><span class="terminal__cmd"
-                    ><span class="hide-on-tablet">codehub </span>статистика</span
-                >
+                <span class="terminal__prompt">
+                    <span class="hide-on-tablet">user@codehub:</span>
+                    ~$
+                </span>
+                <span class="terminal__cmd">
+                    <span class="hide-on-tablet">codehub </span>
+                    статистика
+                </span>
             </div>
             <div class="terminal__line">
                 <span class="terminal__cyan"><span class="hide-on-tablet">✦ </span>streak:</span

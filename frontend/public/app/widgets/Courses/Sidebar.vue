@@ -10,31 +10,17 @@
         </div>
 
         <div class="filters__section">
-            <div class="filters__title">Категории</div>
-            <div
-                v-for="category in categories"
-                :key="category.title"
-                :class="[
-                    'filters__check',
-                    { 'filters__check--on': selectedCategories.includes(category.id) },
-                ]"
-                @click="toggleCategory(category.id)"
-            >
-                <div class="filters__box" />
-                {{ category.title }}
-                <span class="filters__count">{{ category.challengesCount }}</span>
-            </div>
-        </div>
-
-        <div class="filters__section">
             <div class="filters__title">Сложность</div>
             <div class="filters__level-pills">
                 <button
                     :class="[
                         'filters__level-pill',
-                        { 'filters__level-pill--on-easy': selectedDifficulties.includes('easy') },
+                        {
+                            'filters__level-pill--on-easy':
+                                selectedDifficulties.includes('beginner'),
+                        },
                     ]"
-                    @click="toggleDifficulty('easy')"
+                    @click="toggleDifficulty('beginner')"
                 >
                     Легко
                 </button>
@@ -43,19 +29,22 @@
                         'filters__level-pill',
                         {
                             'filters__level-pill--on-medium':
-                                selectedDifficulties.includes('medium'),
+                                selectedDifficulties.includes('intermediate'),
                         },
                     ]"
-                    @click="toggleDifficulty('medium')"
+                    @click="toggleDifficulty('intermediate')"
                 >
                     Средне
                 </button>
                 <button
                     :class="[
                         'filters__level-pill',
-                        { 'filters__level-pill--on-hard': selectedDifficulties.includes('hard') },
+                        {
+                            'filters__level-pill--on-hard':
+                                selectedDifficulties.includes('advanced'),
+                        },
                     ]"
-                    @click="toggleDifficulty('hard')"
+                    @click="toggleDifficulty('advanced')"
                 >
                     Сложно
                 </button>
@@ -63,21 +52,72 @@
         </div>
 
         <div class="filters__section">
-            <div class="filters__title">Язык</div>
             <div
-                v-for="language in languages"
-                :key="language.title"
-                class="filters__check on"
-                :class="[
-                    'filters__check',
-                    { 'filters__check--on': selectedLanguages.includes(language.id) },
-                ]"
-                @click="toggleLanguage(language.id)"
+                class="filters__section-header"
+                @click="toggleCategoriesVisibility"
             >
-                <div class="filters__box" />
-                {{ language.title }}
-                <span class="filters__count">{{ language.challengesCount }}</span>
+                <div class="filters__title">Категории</div>
+                <span class="filters__toggle-icon">
+                    {{ isCategoriesVisible ? '▼' : '▶' }}
+                </span>
             </div>
+            <Transition name="fade">
+                <div
+                    v-if="isCategoriesVisible"
+                    class="filters__section-content"
+                >
+                    <div
+                        v-for="category in categories"
+                        :key="category.title"
+                        :class="[
+                            'filters__check',
+                            { 'filters__check--on': selectedCategories.includes(category.title) },
+                        ]"
+                        @click="toggleCategory(category.title)"
+                    >
+                        <div class="filters__box" />
+                        {{ category.title }}
+                        <span class="filters__count">{{ category.count }}</span>
+                    </div>
+                </div>
+            </Transition>
+        </div>
+
+        <div class="filters__section">
+            <div
+                class="filters__section-header"
+                @click="toggleTechnologiesVisibility"
+            >
+                <div class="filters__title">Технологии</div>
+                <span class="filters__toggle-icon">
+                    {{ isTechnologiesVisible ? '▼' : '▶' }}
+                </span>
+            </div>
+            <Transition name="fade">
+                <div
+                    v-if="isTechnologiesVisible"
+                    class="filters__section-content"
+                >
+                    <div
+                        v-for="technologie in technologies"
+                        :key="technologie.title"
+                        class="filters__check on"
+                        :class="[
+                            'filters__check',
+                            {
+                                'filters__check--on': selectedTechnologies.includes(
+                                    technologie.title,
+                                ),
+                            },
+                        ]"
+                        @click="toggleLanguage(technologie.title)"
+                    >
+                        <div class="filters__box" />
+                        {{ technologie.title }}
+                        <span class="filters__count">{{ technologie.count }}</span>
+                    </div>
+                </div>
+            </Transition>
         </div>
 
         <div class="filters__section">
@@ -87,12 +127,8 @@
                 class="filters__sort-sel"
             >
                 <option :value="undefined" />
-                <option value="popular">Сначала популярные</option>
-                <option value="not-popular">Сначала непопулярные</option>
-                <option value="new">Сначала новые</option>
-                <option value="old">Сначала старые</option>
-                <option value="high-rating">Самый высокий рейтинг</option>
-                <option value="low-rating">Самый низкий рейтинг</option>
+                <option value="newest">Сначала новые</option>
+                <option value="oldest">Сначала старые</option>
                 <option value="easy-hard">Сложность: Легкие → Сложные</option>
                 <option value="hard-easy">Сложность: Сложные → Легкие</option>
             </select>
@@ -101,20 +137,20 @@
 </template>
 
 <script setup lang="ts">
-import type { Category, Language } from '@/entities/course';
+import type { Category, Technologie } from '@/entities/course';
 
 type UpdatedFilters = {
     searchString?: string;
     categories?: string[];
     difficulties?: string[];
-    languages?: string[];
+    technologies?: string[];
     durations?: string[];
     sortBy?: string;
 };
 
 defineProps<{
     categories: Category[];
-    languages: Language[];
+    technologies: Technologie[];
 }>();
 
 const emit = defineEmits<{
@@ -126,8 +162,11 @@ const sortBy = defineModel<string>('sortBy');
 
 const selectedCategories = ref<string[]>([]);
 const selectedDifficulties = ref<string[]>([]);
-const selectedLanguages = ref<string[]>([]);
+const selectedTechnologies = ref<string[]>([]);
 const selectedDurations = ref<string[]>([]);
+
+const isCategoriesVisible = ref(false);
+const isTechnologiesVisible = ref(false);
 
 watch([searchString, sortBy], () => updateFilters());
 
@@ -143,19 +182,19 @@ const toggleCategory = (selectedCategoryId: string) => {
     updateFilters();
 };
 
-const toggleLanguage = (selectedLanguageId: string) => {
-    if (selectedLanguages.value.includes(selectedLanguageId)) {
-        selectedLanguages.value = selectedLanguages.value.filter(
-            (languageId) => languageId !== selectedLanguageId,
+const toggleLanguage = (selectedTechnologieId: string) => {
+    if (selectedTechnologies.value.includes(selectedTechnologieId)) {
+        selectedTechnologies.value = selectedTechnologies.value.filter(
+            (technologieId) => technologieId !== selectedTechnologieId,
         );
     } else {
-        selectedLanguages.value.push(selectedLanguageId);
+        selectedTechnologies.value.push(selectedTechnologieId);
     }
 
     updateFilters();
 };
 
-const toggleDifficulty = (selectedDifficulty: 'easy' | 'medium' | 'hard') => {
+const toggleDifficulty = (selectedDifficulty: 'beginner' | 'intermediate' | 'advanced') => {
     if (selectedDifficulties.value.includes(selectedDifficulty)) {
         selectedDifficulties.value = selectedDifficulties.value.filter(
             (difficulty) => difficulty !== selectedDifficulty,
@@ -167,12 +206,20 @@ const toggleDifficulty = (selectedDifficulty: 'easy' | 'medium' | 'hard') => {
     updateFilters();
 };
 
+const toggleCategoriesVisibility = () => {
+    isCategoriesVisible.value = !isCategoriesVisible.value;
+};
+
+const toggleTechnologiesVisibility = () => {
+    isTechnologiesVisible.value = !isTechnologiesVisible.value;
+};
+
 const updateFilters = () => {
     emit('updateFilters', {
         searchString: searchString.value,
         categories: selectedCategories.value,
         difficulties: selectedDifficulties.value,
-        languages: selectedLanguages.value,
+        technologies: selectedTechnologies.value,
         durations: selectedDurations.value,
         sortBy: sortBy.value,
     });
@@ -180,8 +227,20 @@ const updateFilters = () => {
 </script>
 
 <style lang="scss" scoped>
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.fade-enter-to,
+.fade-leave-from {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 .filters {
-    overflow-y: auto;
+    margin-bottom: 20px;
 
     &::-webkit-scrollbar {
         width: 3px;
@@ -193,6 +252,10 @@ const updateFilters = () => {
 
     &__section {
         margin-bottom: 20px;
+    }
+
+    &__section-header {
+        position: relative;
     }
 
     &__title {
@@ -372,6 +435,14 @@ const updateFilters = () => {
 
         cursor: pointer;
         background: var(--s2);
+    }
+
+    &__toggle-icon {
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-size: 12px;
+        color: var(--muted);
     }
 }
 </style>

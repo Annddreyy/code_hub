@@ -25,21 +25,63 @@
             </div>
             <div class="nav__right">
                 <div class="nav__streak-pill">
-                    🔥 7<span class="hide-on-mobile">-day streak</span>
+                    🔥 {{ user?.streak }}<span class="hide-on-mobile">-дневный активность</span>
                 </div>
-                <div class="nav__xp-pill">⚡ 2 480<span class="hide-on-mobile"> XP</span></div>
-                <div class="nav__notif-btn center">
-                    🔔
-                    <div class="nav__notif-dot" />
+                <div class="nav__xp-pill">
+                    ⚡ {{ user?.xp }}<span class="hide-on-mobile"> XP</span>
                 </div>
-                <div class="nav__avatar center">A</div>
+                <div
+                    class="nav__avatar center"
+                    @click="toggleMenu"
+                >
+                    {{ user?.name[0] }}
+                    <Transition name="fade">
+                        <div
+                            v-if="isMenuOpen"
+                            class="user-menu"
+                        >
+                            <NuxtLink
+                                to="/profile"
+                                class="user-menu__item"
+                            >
+                                Мой профиль
+                            </NuxtLink>
+                            <button
+                                class="user-menu__item"
+                                @click="handleLogout"
+                            >
+                                Выйти
+                            </button>
+                        </div>
+                    </Transition>
+                </div>
             </div>
         </nav>
     </header>
 </template>
 
 <script setup lang="ts">
+import { userApi } from '@/api';
 import { links } from '../configs/header';
+
+const cookieHeaders = import.meta.server ? useRequestHeaders(['cookie']) : {};
+
+const isMenuOpen = ref(false);
+const toggleMenu = () => {
+    isMenuOpen.value = !isMenuOpen.value;
+};
+
+const handleLogout = async () => {
+    try {
+        navigateTo('/auth');
+        await userApi.logout();
+        isMenuOpen.value = false;
+    } catch (error) {
+        console.error('Ошибка при выходе:', error);
+    }
+};
+
+const { data: user } = useAsyncData(async () => await userApi.getUserInfo(cookieHeaders));
 </script>
 
 <style lang="scss" scoped>
@@ -152,39 +194,6 @@ import { links } from '../configs/header';
         border: 1px solid rgba(227, 179, 65, 0.22);
     }
 
-    &__notif-btn {
-        position: relative;
-
-        width: 30px;
-        height: 30px;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        border: 1px solid var(--b1);
-        border-radius: 8px;
-
-        font-size: 14px;
-
-        background: var(--s2);
-        cursor: pointer;
-    }
-
-    &__notif-dot {
-        position: absolute;
-        top: 4px;
-        right: 4px;
-
-        width: 7px;
-        height: 7px;
-
-        border: 2px solid var(--bg);
-        border-radius: 50%;
-
-        background: var(--red);
-    }
-
     &__avatar {
         width: 32px;
         height: 32px;
@@ -205,6 +214,54 @@ import { links } from '../configs/header';
 
     &__icon {
         display: none;
+    }
+
+    .user-menu {
+        position: absolute;
+        top: 40px;
+        right: 0;
+
+        min-width: 120px;
+        padding: 8px;
+
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        border-radius: 8px;
+
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        background: rgba(7, 9, 13, 0.92);
+
+        z-index: 1000;
+
+        &__item {
+            padding: 8px 16px;
+
+            font-size: 12px;
+            text-decoration: none;
+            font-weight: 500;
+            color: var(--text);
+
+            border: none;
+            border-radius: 4px;
+
+            background: none;
+            transition: background 0.3s;
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+        }
+    }
+
+    .fade-enter-active,
+    .fade-leave-active {
+        transition: opacity 0.3s ease;
+    }
+    .fade-enter-from,
+    .fade-leave-to {
+        opacity: 0;
     }
 }
 

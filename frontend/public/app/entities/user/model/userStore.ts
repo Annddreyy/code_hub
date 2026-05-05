@@ -22,6 +22,7 @@ export const useUserStore = defineStore('user', () => {
 
         try {
             currentUser.value = await userApi.getCurrentUser();
+            return currentUser.value;
         } catch (err: unknown) {
             errorMessage.value = err as string;
         } finally {

@@ -10,7 +10,7 @@
                     <div class="podium__badge podium__badge--second">2</div>
                 </div>
                 <div class="podium__name">{{ secondPlace.name }}</div>
-                <div class="podium__xp podium__xp--second">{{ secondPlace.xpCount }} XP</div>
+                <div class="podium__xp podium__xp--second">{{ secondPlace.xp }} XP</div>
                 <div class="podium__platform-wrapper podium__platform-wrapper--second">
                     <div class="podium__platform podium__platform--second">2</div>
                 </div>
@@ -24,7 +24,7 @@
                     <div class="podium__badge podium__badge--first">1</div>
                 </div>
                 <div class="podium__name">{{ firstPlace.name }}</div>
-                <div class="podium__xp podium__xp--first">{{ firstPlace.xpCount }} XP</div>
+                <div class="podium__xp podium__xp--first">{{ firstPlace.xp }} XP</div>
                 <div class="podium__platform-wrapper podium__platform-wrapper--first">
                     <div class="podium__platform podium__platform--first">1</div>
                 </div>
@@ -38,7 +38,7 @@
                     <div class="podium__badge podium__badge--third">3</div>
                 </div>
                 <div class="podium__name">{{ thirdPlace.name }}</div>
-                <div class="podium__xp podium__xp--third">{{ thirdPlace.xpCount }} XP</div>
+                <div class="podium__xp podium__xp--third">{{ thirdPlace.xp }} XP</div>
                 <div class="podium__platform-wrapper podium__platform-wrapper--third">
                     <div class="podium__platform podium__platform--third">3</div>
                 </div>

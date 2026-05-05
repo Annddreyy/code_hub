@@ -1,8 +1,8 @@
 <template>
     <div class="tabs">
         <button
-            :class="['tab', { 'tab--on': !isSolved }]"
-            @click="setIsSolved(false)"
+            :class="['tab', { 'tab--on': !currentDifficulty }]"
+            @click="setCurrentDifficulty(undefined)"
         >
             Все
             <span class="tab__count">{{ totalChallengesCount }}</span>
@@ -14,12 +14,6 @@
             @click="setCurrentDifficulty(difficulty.value)"
         >
             {{ difficulty.titleMany }}
-        </button>
-        <button
-            :class="['tab', { 'tab--on': isSolved }]"
-            @click="setIsSolved(!isSolved)"
-        >
-            Решенные ✓
         </button>
     </div>
 </template>
@@ -34,20 +28,13 @@ defineProps<{
 
 const emit = defineEmits<{
     setDifficulty: [difficulty: Difficulty | undefined];
-    setIsSolved: [isSolved: boolean];
 }>();
 
 const currentDifficulty = ref<Difficulty | undefined>();
-const isSolved = ref(false);
 
 const setCurrentDifficulty = (difficulty: Difficulty | undefined) => {
     currentDifficulty.value = difficulty;
     emit('setDifficulty', difficulty);
-};
-
-const setIsSolved = (status: boolean) => {
-    isSolved.value = status;
-    emit('setIsSolved', status);
 };
 </script>
 

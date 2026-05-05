@@ -1,8 +1,14 @@
 <template>
     <form
         id="register-form"
+        class="register-form"
         @submit.prevent="handleSubmit"
     >
+        <div
+            :class="['register-form__message', { 'register-form__message--error': isErrorMessage }]"
+        >
+            {{ message }}
+        </div>
         <div class="field">
             <label>Полное имя</label>
             <div class="field__wrap">
@@ -49,7 +55,6 @@
                         :class="index < score ? strengthClass : ''"
                     />
                 </div>
-
                 <div
                     class="pw-label"
                     :style="{ color: labelColor }"
@@ -73,9 +78,14 @@
 </template>
 
 <script setup lang="ts">
+import { authApi, type ApiError } from '@/api/auth';
+
 const name = ref('');
 const email = ref('');
 const password = ref('');
+
+const message = ref('');
+const isErrorMessage = ref(false);
 
 const showStrength = ref(false);
 const score = ref(0);
@@ -98,7 +108,7 @@ const strengthClass = computed(() => {
 });
 
 const label = computed(() => {
-    return ['', 'Weak', 'Fair', 'Good', 'Strong'][score.value] || '';
+    return ['', 'Слабый', 'Средний', 'Хороший', 'Сильный'][score.value] || '';
 });
 
 const labelColor = computed(() => {
@@ -107,8 +117,18 @@ const labelColor = computed(() => {
     return 'var(--green)';
 });
 
-const handleSubmit = () => {
-    console.log('Оправлено! (Лог для теста)');
+const handleSubmit = async () => {
+    try {
+        const response = await authApi.register(name.value, email.value, password.value);
+        message.value = response.data.message;
+        isErrorMessage.value = false;
+    } catch (error: unknown) {
+        message.value =
+            (error as ApiError).response.data.message ||
+            (error as ApiError).response.data.errors?.[0]?.messages[0] ||
+            'Неизвестная ошибка';
+        isErrorMessage.value = true;
+    }
 };
 </script>
 

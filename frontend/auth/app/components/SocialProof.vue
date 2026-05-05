@@ -1,33 +1,13 @@
 <template>
     <div class="social-proof">
         <div class="social-proof__avatars">
-            <div
-                class="social-proof__avatar"
-                style="background: linear-gradient(135deg, #4f9cff, #bc8cff)"
-            >
-                A
-            </div>
-            <div
-                class="social-proof__avatar"
-                style="background: linear-gradient(135deg, #3fb950, #39d4c8)"
-            >
-                M
-            </div>
-            <div
-                class="social-proof__avatar"
-                style="background: linear-gradient(135deg, #ff8c42, #ff5c72)"
-            >
-                K
-            </div>
-            <div
-                class="social-proof__avatar"
-                style="background: linear-gradient(135deg, #e3b341, #ffa657)"
-            >
-                J
-            </div>
+            <div class="social-proof__avatar social-proof__avatar--purple">А</div>
+            <div class="social-proof__avatar social-proof__avatar--green">Л</div>
+            <div class="social-proof__avatar social-proof__avatar--red">Р</div>
+            <div class="social-proof__avatar social-proof__avatar--orange">Д</div>
         </div>
         <div class="social-proof__text">
-            <strong>2 847 developers</strong> joined this week. Start your journey free.
+            <strong>2 847 разработчиков</strong> присоединилось на этой неделе. Стань одним из них.
         </div>
     </div>
 </template>
@@ -69,6 +49,22 @@
 
         &:first-child {
             margin-left: 0;
+        }
+
+        &--purple {
+            background: linear-gradient(135deg, #4f9cff, #bc8cff);
+        }
+
+        &--green {
+            background: linear-gradient(135deg, #3fb950, #39d4c8);
+        }
+
+        &--red {
+            background: linear-gradient(135deg, #ff8c42, #ff5c72);
+        }
+
+        &--orange {
+            background: linear-gradient(135deg, #e3b341, #ffa657);
         }
     }
 

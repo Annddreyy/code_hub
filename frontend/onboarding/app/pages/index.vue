@@ -69,7 +69,7 @@
                             :description="STEPS_CONTENT[2]?.description!"
                             :step="3"
                             :next-button-disabled="!userChoices.goals.length"
-                            @next-step="currentStep = Steps.ROADMAP"
+                            @next-step="goToRoadmapsStep"
                             @prev-step="currentStep = Steps.EXPERIENCE"
                         >
                             <div class="goals">
@@ -127,7 +127,7 @@ import {
 } from '@/entities/experienceLevel';
 import { goalApi, GoalCard, type Goal } from '@/entities/goal';
 import { languageApi, LanguageCard, type Language } from '@/entities/language';
-import { roadmapsApi, RoadmapCard } from '@/entities/roadmap';
+import { roadmapsApi, RoadmapCard, type Roadmap } from '@/entities/roadmap';
 
 import { Orbs, Topbar, StepWrapper, Summary } from '@/widgets';
 
@@ -165,30 +165,34 @@ const userChoices = ref<UserChoices>({
     experienceLevels: [],
     goals: [],
 });
+const roadmaps = ref<Roadmap[]>([]);
 
 useHead({
     title: 'Онбординг',
 });
 
-const [experienceLevelsResult, languagesResult, goalsResult, roadmapsResult] = await Promise.all([
-    useAsyncData('experiences', () => experienceLevelApi.getExperienceLevel()),
+await experienceLevelApi.getExperienceLevels();
+
+const [experienceLevelsResult, languagesResult, goalsResult] = await Promise.all([
+    useAsyncData('experiences', () => experienceLevelApi.getExperienceLevels()),
     useAsyncData('languages', () => languageApi.getLanguages()),
     useAsyncData('goals', () => goalApi.getGoals()),
-    useAsyncData('roadmaps', () => roadmapsApi.getRoadmaps()),
 ]);
 
 const experienceLevels = experienceLevelsResult.data;
 const languages = languagesResult.data;
 const goals = goalsResult.data;
-const roadmaps = roadmapsResult.data;
 
 const goToStep = (step: Steps) => {
     currentStep.value = step;
 };
 
+const goToRoadmapsStep = async () => {
+    currentStep.value = Steps.ROADMAP;
+    roadmaps.value = (await roadmapsApi.getRoadmaps(userChoices.value)).roadmaps;
+};
+
 const sendResults = () => {
-    // будет запрос к API
-    console.log(userChoices);
     window.location.replace('/');
 };
 </script>

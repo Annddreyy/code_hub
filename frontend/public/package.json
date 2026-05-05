@@ -13,11 +13,13 @@
         "lint:prettier": "prettier . --check",
         "lintfix": "eslint . --fix && prettier --write --list-different .",
         "typecheck": "npx nuxt typecheck",
-        "prepare": "cd ../.. && husky install .husky"
+        "prepare": "cd ../.. && husky frontend/public/.husky"
     },
     "dependencies": {
         "@nuxt/eslint": "^1.15.2",
         "@pinia/nuxt": "^0.11.3",
+        "axios": "^1.15.2",
+        "lodash": "^4.18.1",
         "nuxt": "^4.4.2",
         "pinia": "^3.0.4",
         "sass-embedded": "^1.99.0",
@@ -29,6 +31,8 @@
         "@eslint/js": "^9.39.4",
         "@eslint/json": "^0.14.0",
         "@eslint/markdown": "^7.5.1",
+        "@types/axios": "^0.9.36",
+        "@types/lodash": "^4.17.24",
         "eslint": "^10.1.0",
         "eslint-plugin-vue": "^10.8.0",
         "globals": "^17.4.0",

@@ -17,10 +17,10 @@
             </div>
             <div
                 v-for="leaderboardUser in leaderboardUsers"
-                :key="leaderboardUser.id"
+                :key="leaderboardUser.position"
                 class="leader-board__row"
             >
-                <span class="leader-board__num">{{ leaderboardUser.id }}</span>
+                <span class="leader-board__num">{{ leaderboardUser.position }}</span>
                 <div class="leader-board__user">
                     <div class="leader-board__avatar">
                         {{ leaderboardUser.name[0] }}
@@ -29,8 +29,8 @@
                         <div class="leader-board__name">{{ leaderboardUser.name }}</div>
                     </div>
                 </div>
-                <span class="leader-board__xp">{{ leaderboardUser.xpCount }}</span>
-                <span class="leader-board__solved">{{ leaderboardUser.solvedChallenges }}</span>
+                <span class="leader-board__xp">{{ leaderboardUser.xp }}</span>
+                <span class="leader-board__solved">{{ leaderboardUser.solved }}</span>
                 <span class="leader-board__streak">🔥 {{ leaderboardUser.streak }}</span>
                 <span
                     :class="[

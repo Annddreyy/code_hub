@@ -4,10 +4,7 @@
         @click="toggleSelect"
     >
         <div class="checkmark">✓</div>
-        <img
-            class="goal__icon"
-            :src="icon"
-        />
+        <span class="goal__icon">{{ icon }}</span>
         <div class="goal__body">
             <div class="goal__title">{{ title }}</div>
             <div class="goal__description">{{ description }}</div>

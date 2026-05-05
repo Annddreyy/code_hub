@@ -25,12 +25,10 @@
 <script setup lang="ts">
 import type { Course } from '../model/course';
 
-const { modules, userMeta } = defineProps<Course>();
+const { userMeta } = defineProps<Course>();
 
-const currentLesson = computed(() => userMeta.currentLesson);
-const lessonsCount = computed(() =>
-    modules.reduce((sum, module) => sum + module.lessons.length, 0),
-);
+const currentLesson = computed(() => userMeta?.currentLesson);
+const lessonsCount = computed(() => 10);
 const courseProgress = computed(() =>
     Math.round((Number(currentLesson.value) / lessonsCount.value) * 100),
 );

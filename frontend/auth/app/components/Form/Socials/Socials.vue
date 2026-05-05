@@ -71,6 +71,7 @@ import googleIcon from './google.png';
     &__txt {
         font-family: var(--spaced);
         color: var(--dim);
+        font-size: 12px;
     }
 }
 
