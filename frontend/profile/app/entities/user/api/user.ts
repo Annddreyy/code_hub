@@ -1,3 +1,4 @@
+import { authInstance } from '@/shared/api';
 import type { User } from '../model/user';
 
 export type LanguageProgress = {
@@ -21,39 +22,6 @@ export type RecentActivity = {
     xpReward: number;
     agoSeconds: number;
 };
-
-const LANGUAGES_PROGRESS: LanguageProgress[] = [
-    {
-        title: 'JavaScript',
-        icon: '⚡',
-        progressPercent: 92,
-        color: 'orange',
-    },
-    {
-        title: 'TypeScript',
-        icon: '🔷',
-        progressPercent: 84,
-        color: 'blue',
-    },
-    {
-        title: 'Python',
-        icon: '🐍',
-        progressPercent: 71,
-        color: 'green',
-    },
-    {
-        title: 'React',
-        icon: '⚛️',
-        progressPercent: 88,
-        color: 'cyan',
-    },
-    {
-        title: 'Go',
-        icon: '🐹',
-        progressPercent: 43,
-        color: 'blue',
-    },
-];
 
 const HEATMAP_DATA: HeatmapCell[] = [
     // Неделя 1 (самая старая)
@@ -326,36 +294,23 @@ const RECENT_ACTIVITY: RecentActivity[] = [
     },
 ];
 
-const USER_FOR_TEST: User = {
-    id: '1',
-    name: 'Андрей Пучков',
-    bio: 'Junior Frontend разработчик',
-    email: 'test@mail.ru',
-    password: '123',
-    socialLinks: [
-        {
-            title: 'GitHub',
-            link: 'https://github.com',
-        },
-        {
-            title: 'Telegram',
-            link: 'https://web.telegram.com',
-        },
-        {
-            title: 'VK',
-            link: 'https://vk.com',
-        },
-    ],
-    createdAt: new Date(),
-};
-
 export const userApi = {
-    getCurrentUser: async () => {
-        return Promise.resolve(USER_FOR_TEST);
+    getCurrentUser: async (headers = {}) => {
+        return (await authInstance.get<User>('/me', { headers })).data;
     },
 
-    getLanguagesProgress: async () => {
-        return Promise.resolve(LANGUAGES_PROGRESS);
+    updateProfile: async (
+        profile: Partial<{
+            name: string;
+            email: string;
+            bio: string;
+            avatarUrl: string;
+        }>,
+        headers = {},
+    ) => {
+        profile.avatar = undefined;
+        profile.avatarUrl = 'https://vk.com';
+        return (await authInstance.patch<User>('me', profile, { headers })).data;
     },
 
     getHeatmap: async () => {

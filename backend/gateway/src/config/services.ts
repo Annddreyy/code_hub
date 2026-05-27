@@ -40,4 +40,5 @@ export const PUBLIC_PATHS = [
     'POST /api/auth/reset-password',
     'GET /api/auth/confirm-email',
     'GET /api/auth/me',
+    'PATCH /api/auth/me',
 ];

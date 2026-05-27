@@ -33,6 +33,10 @@ defineProps<{
     }>;
 }>();
 
+const emit = defineEmits<{
+    submit: [form: Record<string, unknown>];
+}>();
+
 const formRef = useTemplateRef('form');
 
 const serializeForm = (formNode: HTMLFormElement) => {
@@ -47,7 +51,7 @@ const serializeForm = (formNode: HTMLFormElement) => {
 };
 
 const handleSubmit = () => {
-    console.log(serializeForm(formRef.value!));
+    emit('submit', serializeForm(formRef.value!));
 };
 </script>
 

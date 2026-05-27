@@ -7,8 +7,10 @@
 <script setup lang="ts">
 import { useUserStore } from './entities/user';
 
+const cookieHeaders = import.meta.server ? useRequestHeaders(['cookie']) : {};
+
 const userStore = useUserStore();
-await useAsyncData(() => userStore.getCurrentUser());
+await useAsyncData(() => userStore.getCurrentUser(cookieHeaders));
 </script>
 
 <style lang="scss">

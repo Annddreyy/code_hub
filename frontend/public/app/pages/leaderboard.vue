@@ -56,8 +56,6 @@ const pageSize = leaderboardResult.value?.pageSize;
 
 const podiumUsers = podiumResult.value;
 
-console.log(podiumResult);
-
 const totalPages = computed(() => (totalUsers && pageSize ? Math.ceil(totalUsers / pageSize) : 0));
 
 onMounted(() => {

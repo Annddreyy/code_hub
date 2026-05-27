@@ -1,5 +1,7 @@
 <template>
-    <button class="save-btn">{{ text }}</button>
+    <button class="save-btn">
+        {{ text }}
+    </button>
 </template>
 
 <script setup lang="ts">
