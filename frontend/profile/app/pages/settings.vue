@@ -8,16 +8,25 @@
             :title="form.title"
             :subtitle="form.subtitle"
             :rows="form.rows"
+            @submit="form.submit"
         />
     </div>
 </template>
 
 <script setup lang="ts">
 import { SettingsCard } from '@/widgets/Settings';
-import { useUserStore } from '@/entities/user';
+import { useUserStore, userApi } from '@/entities/user';
+import { settingsApi } from '@/entities/settings';
 
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
+
+const cookieHeaders = import.meta.server ? useRequestHeaders(['cookie']) : {};
+
+const { data: settings } = await useAsyncData('settings', () =>
+    settingsApi.getSettings(cookieHeaders),
+);
+const localSettings = ref(settings.value || {});
 
 const forms = computed(() => [
     {
@@ -47,6 +56,8 @@ const forms = computed(() => [
                 props: { text: 'Сохранить изменения' },
             },
         ],
+        submit: async (data: Record<string, unknown>) =>
+            await userApi.updateProfile(data, cookieHeaders),
     },
     {
         title: 'Предпочтения',
@@ -58,13 +69,19 @@ const forms = computed(() => [
                 icon: '🎨',
                 component: 'Select',
                 props: {
-                    name: 'theme',
+                    name: 'editorTheme',
                     options: [
                         {
                             value: 'dark',
                             title: 'Темная',
                         },
                     ],
+                    currentValue: settings.value?.editorTheme,
+                    onChange: (event: Event) => {
+                        if (localSettings.value?.editorTheme) {
+                            localSettings.value.editorTheme = event.target?.value;
+                        }
+                    },
                 },
             },
             {
@@ -73,7 +90,7 @@ const forms = computed(() => [
                 icon: '🔤',
                 component: 'Select',
                 props: {
-                    name: 'fontSize',
+                    name: 'editorFontSize',
                     options: [
                         {
                             value: '8',
@@ -100,6 +117,12 @@ const forms = computed(() => [
                             title: '24px',
                         },
                     ],
+                    currentValue: String(settings.value?.editorFontSize),
+                    onChange: (event: Event) => {
+                        if (localSettings.value?.editorFontSize) {
+                            localSettings.value.editorFontSize = +(event.target?.value || 12);
+                        }
+                    },
                 },
             },
             {
@@ -127,6 +150,12 @@ const forms = computed(() => [
                             title: 'Java',
                         },
                     ],
+                    currentValue: settings.value?.defaultLanguage,
+                    onChange: (event: Event) => {
+                        if (localSettings.value?.defaultLanguage) {
+                            localSettings.value.defaultLanguage = event.target?.value;
+                        }
+                    },
                 },
             },
             {
@@ -135,7 +164,7 @@ const forms = computed(() => [
                 icon: '⏱️',
                 component: 'Select',
                 props: {
-                    name: 'dayMinutes',
+                    name: 'dailyGoal',
                     options: [
                         {
                             value: '15',
@@ -154,6 +183,12 @@ const forms = computed(() => [
                             title: '60 мин',
                         },
                     ],
+                    currentValue: String(settings.value?.dailyGoal),
+                    onChange: (event: Event) => {
+                        if (localSettings.value?.dailyGoal) {
+                            localSettings.value.dailyGoal = +(event.target?.value || 15);
+                        }
+                    },
                 },
             },
             {
@@ -162,7 +197,8 @@ const forms = computed(() => [
                 icon: '✨',
                 component: 'Toggle',
                 props: {
-                    name: 'animations',
+                    name: 'enableAnimations',
+                    isActive: settings.value?.enableAnimations,
                 },
             },
             {
@@ -170,6 +206,8 @@ const forms = computed(() => [
                 props: { text: 'Сохранить изменения' },
             },
         ],
+        submit: async (data: Record<string, unknown>) =>
+            await settingsApi.updateSettings(data, cookieHeaders),
     },
     {
         title: 'Безопасность аккаунта',
@@ -182,16 +220,6 @@ const forms = computed(() => [
                 props: {
                     name: 'email',
                     value: user.value?.email,
-                },
-            },
-            {
-                label: 'Пароль',
-                icon: '🔒',
-                component: 'Input',
-                props: {
-                    name: 'password',
-                    type: 'password',
-                    value: user.value?.password,
                 },
             },
             {
@@ -208,6 +236,13 @@ const forms = computed(() => [
                 props: { text: 'Сохранить изменения' },
             },
         ],
+        submit: async (data: Record<string, unknown>) => {
+            try {
+                await userApi.updateProfile(data, cookieHeaders);
+            } catch {
+                console.error('Ошибка при обновлении профиля');
+            }
+        },
     },
 ]);
 

@@ -23,17 +23,19 @@ import type { Category } from '@/entities/achievement';
 import { achievementsApi } from '@/entities/achievement';
 import { AchievementsGrid, AchievementsHero, CategoryTabs } from '@/widgets';
 
+const cookieHeaders = import.meta.server ? useRequestHeaders(['cookie']) : {};
+
 const currentCategory = ref<Category | undefined>(undefined);
 
 const { data: achievements } = await useAsyncData(
     'achievements',
-    () => achievementsApi.getAchievements(currentCategory.value),
+    () => achievementsApi.getAchievements(currentCategory.value, cookieHeaders),
     { watch: [currentCategory] },
 );
 
 const totalAchievements = computed(() => achievements.value?.length);
 const unlockedAchievements = computed(
-    () => achievements.value?.filter((achievement) => achievement.userMeta.earnedDate).length || 0,
+    () => achievements.value?.filter((achievement) => achievement.userMeta?.earnedDate).length || 0,
 );
 
 const setCategory = (category: Category | undefined) => {

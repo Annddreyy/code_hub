@@ -1,9 +1,13 @@
 <template>
-    <select class="setting-select">
+    <select
+        class="setting-select"
+        @change="onChange"
+    >
         <option
             v-for="option in options"
             :key="option.value"
             :value="option.value"
+            :selected="option.value === currentValue"
         >
             {{ option.title }}
         </option>
@@ -16,6 +20,8 @@ defineProps<{
         value: string;
         title: string;
     }[];
+    currentValue: string;
+    onChange: () => void;
 }>();
 </script>
 
