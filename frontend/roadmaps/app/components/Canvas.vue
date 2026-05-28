@@ -90,6 +90,7 @@
                         v-for="roadmapNode in roadmapNodes"
                         :key="roadmapNode.id"
                         v-bind="roadmapNode"
+                        @click="$emit('selectNode', roadmapNode.id)"
                     />
                 </svg>
             </div>
@@ -130,6 +131,10 @@ defineProps<{
     connections: RoadmapConnectionType[];
     config: RoadmapConfig;
     roadmapNodes: RoadmapNode[];
+}>();
+
+defineEmits<{
+    selectNode: [nodeId: string];
 }>();
 
 const pan = reactive({ x: 0, y: 0 });

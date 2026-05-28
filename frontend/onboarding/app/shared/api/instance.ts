@@ -1,5 +1,6 @@
 import axios from 'axios';
 
 export const instance = axios.create({
-    baseURL: 'http://localhost:8002/api/onboarding/',
+    baseURL: 'http://localhost:8080/api/onboarding/',
+    withCredentials: true,
 });

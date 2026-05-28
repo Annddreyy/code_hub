@@ -25,16 +25,23 @@
             </div>
             <div class="nav__right">
                 <div class="nav__streak-pill">
-                    🔥 {{ user?.streak }}<span class="hide-on-mobile">-дневный активность</span>
+                    🔥 {{ user?.streak || 0
+                    }}<span class="hide-on-mobile">-дневный активность</span>
                 </div>
                 <div class="nav__xp-pill">
                     ⚡ {{ user?.xp }}<span class="hide-on-mobile"> XP</span>
                 </div>
                 <div
                     class="nav__avatar center"
+                    :style="
+                        user.avatarUrl && {
+                            backgroundImage: `url(${user.avatarUrl})`,
+                            backgroundSize: 'cover',
+                        }
+                    "
                     @click="toggleMenu"
                 >
-                    {{ user?.name[0] }}
+                    <span v-if="!user.avatarUrl">{{ user?.name[0] }}</span>
                     <Transition name="fade">
                         <div
                             v-if="isMenuOpen"
@@ -73,15 +80,15 @@ const toggleMenu = () => {
 
 const handleLogout = async () => {
     try {
-        navigateTo('/auth');
         await userApi.logout();
+        navigateTo('/auth');
         isMenuOpen.value = false;
     } catch (error) {
         console.error('Ошибка при выходе:', error);
     }
 };
 
-const { data: user } = useAsyncData(async () => await userApi.getUserInfo(cookieHeaders));
+const { data: user } = await useAsyncData('user', () => userApi.getUserInfo(cookieHeaders));
 </script>
 
 <style lang="scss" scoped>
@@ -89,7 +96,7 @@ const { data: user } = useAsyncData(async () => await userApi.getUserInfo(cookie
     position: sticky;
     top: 0;
 
-    height: var(--nav);
+    height: 52px;
     padding: 0 24px;
     flex-shrink: 0;
 
@@ -134,7 +141,7 @@ const { data: user } = useAsyncData(async () => await userApi.getUserInfo(cookie
         display: flex;
         gap: 0;
 
-        height: var(--nav);
+        height: 52px;
     }
 
     &__link {

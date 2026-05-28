@@ -21,7 +21,9 @@
                         :style="`width: ${progress}%`"
                     />
                 </div>
-                <span class="prog-bar__text">{{ currentNode }} / {{ totalNodes }} узлов</span>
+                <span class="prog-bar__text">
+                    {{ completedLessons }} / {{ totalLessons }} узлов
+                </span>
             </div>
         </div>
         <div class="featured-card__right">
@@ -31,7 +33,7 @@
             </div>
             <div class="featured-card__xp">⚡ +{{ xp }} XP</div>
             <NuxtLink
-                :to="`/roadmaps/${id}`"
+                :to="id"
                 class="featured-card__btn"
             >
                 Продолжить →
@@ -41,18 +43,11 @@
 </template>
 
 <script setup lang="ts">
-const { currentNode, totalNodes } = defineProps<{
-    id: string;
-    title: string;
-    description: string;
-    icon: string;
-    tags: string[];
-    currentNode: number;
-    totalNodes: number;
-    xp: number;
-}>();
+import type { Roadmap } from '@/api/roadmap';
 
-const progress = computed(() => Math.floor((currentNode / totalNodes) * 100));
+const { completedLessons, totalLessons } = defineProps<Omit<Roadmap, 'status'>>();
+
+const progress = computed(() => Math.floor((completedLessons / (totalLessons || 1)) * 100));
 </script>
 
 <style lang="scss" scoped>

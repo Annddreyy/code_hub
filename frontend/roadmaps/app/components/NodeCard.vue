@@ -254,6 +254,7 @@ const tagBackgroundColor = computed(() => {
     &__description {
         fill: var(--muted);
         font-family: var(--spaced);
+        text-overflow: ellipsis;
     }
 
     &__xp {

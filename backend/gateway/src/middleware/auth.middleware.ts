@@ -26,7 +26,7 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
     try {
         const payload = jwt.verify(
             token,
-            process.env.JWT_SECRET! || 'access-secret-change-in-prod',
+            process.env.JWT_SECRET! || 'test_access_secret_key_1234567890',
         ) as JwtPayload;
 
         req.headers['x-user-id'] = payload.userId;
@@ -38,6 +38,6 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
 
         next();
     } catch {
-        res.status(401).json({ message: 'Невалидный ил просроченный токен' });
+        res.status(401).json({ message: 'Невалидный или просроченный токен' });
     }
 };
