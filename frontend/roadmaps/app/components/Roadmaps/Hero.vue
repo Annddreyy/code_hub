@@ -10,7 +10,7 @@
                 class="search___input"
                 type="text"
                 placeholder="Поиск роадмапов..."
-                @input="
+                @change="
                     (event: Event) =>
                         $emit('setSearchString', (event.target as HTMLInputElement).value)
                 "

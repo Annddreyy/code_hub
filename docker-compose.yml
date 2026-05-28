@@ -77,7 +77,7 @@ services:
       - .env
       - .env.local
     ports:
-      - "5432:5432"
+      - "8100:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped

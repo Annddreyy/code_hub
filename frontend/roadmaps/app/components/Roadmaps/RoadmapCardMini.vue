@@ -2,7 +2,7 @@
     <div class="roadmap-card-mini">
         <span class="roadmap-card-mini__icon">{{ icon }}</span>
         <div class="roadmap-card-mini__title">{{ title }}</div>
-        <div class="roadmap-card-mini__nodes">{{ totalNodes }} узлов · +{{ xp }} XP</div>
+        <div class="roadmap-card-mini__nodes">{{ totalLessons }} узлов · +{{ xp }} XP</div>
         <div class="roadmap-card-mini__bar">
             <div
                 class="roadmap-card-mini__fill"
@@ -13,15 +13,15 @@
 </template>
 
 <script setup lang="ts">
-const { currentNode, totalNodes } = defineProps<{
+const { completedLessons, totalLessons } = defineProps<{
     icon: string;
     title: string;
     xp: number;
-    currentNode: number;
-    totalNodes: number;
+    completedLessons: number;
+    totalLessons: number;
 }>();
 
-const progress = computed(() => Math.floor((currentNode / totalNodes) * 100));
+const progress = computed(() => Math.floor((completedLessons / totalLessons) * 100));
 </script>
 
 <style lang="scss" scoped>

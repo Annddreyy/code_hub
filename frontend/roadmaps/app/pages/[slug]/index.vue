@@ -9,6 +9,10 @@
             :roadmap-nodes="roadmap?.nodes || []"
             :connections="roadmap?.connections || []"
             :config="roadmap?.config || { width: 1200, height: 1200 }"
+            @select-node="
+                async (nodeId: string) =>
+                    (currentNode = await roadmapsApi.getSelectedNode(nodeId, cookieHeaders))
+            "
         />
         <DetailPanel
             :status="currentNode?.node?.status || NodeStatus.ACTIVE"
@@ -25,9 +29,19 @@
 import { DetailPanel } from '@/components';
 import { roadmapsApi, NodeStatus } from '@/api/roadmap';
 
-const { data: roadmapData } = await useAsyncData(() => roadmapsApi.getRoadmap());
-const { data: roadmap } = await useAsyncData(() => roadmapsApi.getNodes());
-const { data: currentNode } = await useAsyncData(() => roadmapsApi.getSelectedNode());
+const route = useRoute();
+
+const cookieHeaders = import.meta.server ? useRequestHeaders(['cookie']) : {};
+
+const [roadmapDataResult, roadmapResult, currentNodeResult] = await Promise.all([
+    useAsyncData(() => roadmapsApi.getRoadmap()),
+    useAsyncData(() => roadmapsApi.getNodes(route.path.slice(1), cookieHeaders)),
+    useAsyncData(() => roadmapsApi.getSelectedNode('71', cookieHeaders)),
+]);
+
+const roadmap = roadmapResult.data;
+const roadmapData = roadmapDataResult.data;
+const currentNode = currentNodeResult.data;
 
 useHead({
     title: roadmapData.value?.title || 'Дорожная карта не найдена',

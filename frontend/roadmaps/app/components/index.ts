@@ -2,7 +2,7 @@ import Sidebar from './Sidebar.vue';
 import Canvas from './Canvas.vue';
 import DetailPanel from './DetailPanel/DetailPanel.vue';
 import Hero from './Roadmaps/Hero.vue';
-import Filters from './Roadmaps/Filters.vue';
+import Tags from './Roadmaps/Tags.vue';
 import Stats from './Roadmaps/Stats.vue';
 import ActiveRoadmap from './Roadmaps/ActiveRoadmap.vue';
 import RoadmapCard from './Roadmaps/RoadmapCard.vue';
@@ -15,7 +15,7 @@ export {
     Canvas,
     DetailPanel,
     Hero,
-    Filters,
+    Tags,
     Stats,
     ActiveRoadmap,
     RoadmapCard,

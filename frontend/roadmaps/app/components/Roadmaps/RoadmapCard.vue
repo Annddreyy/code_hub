@@ -25,21 +25,23 @@
             <div class="roadmap-card__stats">
                 <div class="roadmap-card__stat">
                     <div class="roadmap-card__stat-val roadmap-card__stat-val--blue">
-                        {{ currentNode }}
+                        {{ completedLessons }}
                     </div>
                     <div class="roadmap-card__stat-lbl">Пройдено</div>
                 </div>
                 <div class="roadmap-card__divider" />
                 <div class="roadmap-card__stat">
                     <div class="roadmap-card__stat-val roadmap-card__stat-val--gray">
-                        {{ totalNodes }}
+                        {{ totalLessons }}
                     </div>
                     <div class="roadmap-card__stat-lbl">Всего</div>
                 </div>
                 <div class="roadmap-card__divider" />
                 <div class="roadmap-card__stat">
-                    <div class="roadmap-card__stat-val roadmap-card__stat-val--orange">3h</div>
-                    <div class="roadmap-card__stat-lbl">Осталось</div>
+                    <div class="roadmap-card__stat-val roadmap-card__stat-val--orange">
+                        {{ Math.round(remainingTimeMinutes / 60) }}
+                    </div>
+                    <div class="roadmap-card__stat-lbl">Осталось часов</div>
                 </div>
             </div>
             <div class="roadmap-card__prog">
@@ -57,7 +59,7 @@
             <div class="roadmap-card__foot">
                 <span class="roadmap-card__xp">⚡ +{{ xp }} XP</span>
                 <NuxtLink
-                    :to="`/roadmaps/${id}`"
+                    :to="slug"
                     :class="`action action--${status}`"
                 >
                     {{ buttonText }}
@@ -70,9 +72,9 @@
 <script setup lang="ts">
 import { RoadmapStatus, type Roadmap } from '@/api/roadmap';
 
-const { currentNode, totalNodes, status } = defineProps<Roadmap>();
+const { completedLessons, totalLessons, status } = defineProps<Roadmap>();
 
-const progress = computed(() => Math.floor((currentNode / totalNodes) * 100));
+const progress = computed(() => Math.floor((completedLessons / (totalLessons || 1)) * 100));
 const statusText = computed(() => {
     switch (status) {
         case RoadmapStatus.COMPLETED:
@@ -113,6 +115,10 @@ const buttonText = computed(() => {
 
     transition: all 0.2s;
     animation: cardIn 0.15s ease both;
+
+    * {
+        color: white;
+    }
 
     &:hover {
         transform: translateY(-3px);

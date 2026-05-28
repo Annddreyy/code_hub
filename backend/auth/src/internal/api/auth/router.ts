@@ -138,6 +138,7 @@ authRouter.get('/me', authMiddleware, async (req: Request, res: Response) => {
         isConfirmed: user.emailConfirmation.isConfirmed,
         streak: user.longestStreak,
         xp: user.totalXpEarned,
+        avatarUrl: user.avatarUrl,
     });
 });
 

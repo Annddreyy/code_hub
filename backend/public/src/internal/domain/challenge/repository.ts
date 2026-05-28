@@ -138,9 +138,6 @@ export const challengesRepository = {
 
         const result = await pool.query(query, dataParams);
         const rows = camelcaseKeys(result.rows, { deep: true });
-        
-
-        console.log(total, limit)
 
         return {
             challenges: rows?.map((row) => ({

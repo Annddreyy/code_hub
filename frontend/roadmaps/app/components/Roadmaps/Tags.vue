@@ -1,36 +1,43 @@
 <template>
-    <div class="filters">
+    <div class="tags">
         <button
-            class="filters__chip"
-            @click="$emit('selectFilter', undefined)"
+            class="tags__chip"
+            @click="$emit('selectTag', null)"
         >
             Все
         </button>
         <button
-            v-for="filter in filters"
-            :key="filter"
-            :class="['filters__chip', { 'filters__chip--active': selectedFilter === filter }]"
-            @click="$emit('selectFilter', filter)"
+            v-for="tag in tags"
+            :key="tag.id"
+            :class="['tags__chip', { 'tags__chip--active': selectedTag === tag.title }]"
+            @click="selectTag(tag.title)"
         >
-            {{ filter }}
+            {{ tag.title }}
         </button>
     </div>
 </template>
 
 <script setup lang="ts">
+import type { Tag } from '@/api/roadmap';
+
 defineProps<{
-    filters: string[];
+    tags: Tag[];
 }>();
 
-defineEmits<{
-    selectFilter: [filter: string | undefined];
+const emit = defineEmits<{
+    selectTag: [tag: string | null];
 }>();
 
-const selectedFilter = ref<string | undefined>(undefined);
+const selectedTag = ref<string | null>(null);
+
+const selectTag = (tag: string) => {
+    selectedTag.value = tag;
+    emit('selectTag', tag);
+};
 </script>
 
 <style lang="scss" scoped>
-.filters {
+.tags {
     display: flex;
     flex-wrap: wrap;
     gap: 7px;

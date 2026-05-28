@@ -1,22 +1,23 @@
 <template>
     <main>
         <Hero />
-        <Filters
-            v-if="filters"
-            :filters
+        <Tags
+            v-if="tags"
+            :tags
+            @select-tag="(value: string | null) => (tag = value)"
         />
         <Stats
             v-if="stats"
             v-bind="stats"
         />
-        <SectionWrapper title="В процессе">
-            <ActiveRoadmap
-                v-if="activeRoadmaps?.[0]"
-                v-bind="{ ...activeRoadmaps[0], status: undefined }"
-            />
+        <SectionWrapper
+            v-if="activeRoadmaps?.[0]"
+            title="В процессе"
+        >
+            <ActiveRoadmap v-bind="{ ...activeRoadmaps[0], status: undefined }" />
             <RoadmapsCardsGrid
-                v-if="activeRoadmaps"
-                :roadmaps="activeRoadmaps"
+                v-if="activeRoadmaps?.slice(1).length"
+                :roadmaps="activeRoadmaps.slice(1)"
             />
         </SectionWrapper>
         <SectionWrapper title="Завершенные">
@@ -42,8 +43,8 @@
                     :title="roadmap.title"
                     :icon="roadmap.icon"
                     :xp="roadmap.xp"
-                    :current-node="roadmap.currentNode"
-                    :total-nodes="roadmap.totalNodes"
+                    :completed-lessons="roadmap.completedLessons"
+                    :total-lessons="roadmap.totalLessons"
                 />
             </div>
         </SectionWrapper>
@@ -51,25 +52,48 @@
 </template>
 
 <script setup lang="ts">
-import { ActiveRoadmap, Filters, Hero, SectionWrapper, Stats, RoadmapCardMini } from '@/components';
+import { ActiveRoadmap, Tags, Hero, SectionWrapper, Stats, RoadmapCardMini } from '@/components';
 import { roadmapsApi, RoadmapStatus } from '@/api/roadmap';
 
-const [roadmapsResult, filtersResult, statsResult] = await Promise.all([
-    useAsyncData(() => roadmapsApi.getRoadmaps()),
-    useAsyncData(() => roadmapsApi.getFilters()),
-    useAsyncData(() => roadmapsApi.getStats()),
+const cookieHeaders = import.meta.server ? useRequestHeaders(['cookie']) : {};
+
+const search = ref('');
+const tag = ref<string | null>(null);
+
+const [roadmapsResult, tagsResult] = await Promise.all([
+    useAsyncData(() => roadmapsApi.getRoadmaps(search.value, tag.value, cookieHeaders), {
+        watch: [search, tag],
+        immediate: true,
+    }),
+    useAsyncData(() => roadmapsApi.getTags(cookieHeaders)),
 ]);
 
 const roadmaps = roadmapsResult.data;
-const filters = filtersResult.data;
-const stats = statsResult.data;
+const tags = tagsResult.data;
 
-const activeRoadmaps = roadmaps.value?.filter((roadmap) => roadmap.status === RoadmapStatus.ACTIVE);
-const completedRoadmaps = roadmaps.value?.filter(
-    (roadmap) => roadmap.status === RoadmapStatus.COMPLETED,
+const activeRoadmaps = computed(() =>
+    roadmaps.value?.filter((roadmap) => roadmap.status === RoadmapStatus.ACTIVE),
 );
-const newRoadmaps = roadmaps.value?.filter((roadmap) => roadmap.status === RoadmapStatus.NEW);
-const lockedRoadmaps = roadmaps.value?.filter((roadmap) => roadmap.status === RoadmapStatus.LOCKED);
+
+const completedRoadmaps = computed(() =>
+    roadmaps.value?.filter((roadmap) => roadmap.status === RoadmapStatus.COMPLETED),
+);
+
+const newRoadmaps = computed(() =>
+    roadmaps.value?.filter((roadmap) => roadmap.status === RoadmapStatus.NEW),
+);
+
+const lockedRoadmaps = computed(() =>
+    roadmaps.value?.filter((roadmap) => roadmap.status === RoadmapStatus.LOCKED),
+);
+
+const stats = computed(() => ({
+    roadmapsCount: roadmaps.value?.length,
+    inProgressCount: activeRoadmaps.value?.length,
+    completedCount: completedRoadmaps.value?.length,
+    xpEarned: roadmaps.value?.reduce((sum, roadmap) => sum + roadmap.xp, 0),
+    nodesCompleted: roadmaps.value?.reduce((sum, roadmap) => sum + roadmap.completedLessons, 0),
+}));
 
 useHead({
     title: 'Дорожные карты',
