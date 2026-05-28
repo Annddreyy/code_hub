@@ -1,5 +1,5 @@
 <template>
-    <div class="achievement-card achievement-card--unlocked">
+    <div :class="['achievement-card', { 'achievement-card--unlocked': userMeta?.earnedDate }]">
         <span :class="['achievement-card__rarity', `achievement-card__rarity--${category}`]">
             {{ CATEGORY_TITLES.find((cat) => cat.title === category)?.fullTitle }}
         </span>
@@ -52,30 +52,6 @@ defineProps<Achievement>();
                 opacity: 1;
             }
         }
-    }
-
-    &--unlocked {
-        border-color: rgba(188, 140, 255, 0.3);
-        background: rgba(188, 140, 255, 0.03);
-
-        animation: badgePop 0.4s ease;
-
-        &::after {
-            position: absolute;
-            content: '';
-            top: 0;
-            left: 0;
-            right: 0;
-
-            height: 2px;
-
-            background: linear-gradient(90deg, var(--purple), var(--blue));
-        }
-    }
-
-    &--locked {
-        opacity: 0.5;
-        filter: grayscale(0.7);
     }
 
     &__ico {
@@ -150,6 +126,30 @@ defineProps<Achievement>();
             color: var(--yellow);
             background: rgba(227, 179, 65, 0.1);
         }
+    }
+
+    &--unlocked {
+        border-color: rgba(188, 140, 255, 0.3);
+        background: rgba(188, 140, 255, 0.03);
+
+        animation: badgePop 0.4s ease;
+
+        &::after {
+            position: absolute;
+            content: '';
+            top: 0;
+            left: 0;
+            right: 0;
+
+            height: 2px;
+
+            background: linear-gradient(90deg, var(--purple), var(--blue));
+        }
+    }
+
+    &--locked {
+        opacity: 0.5;
+        filter: grayscale(0.7);
     }
 }
 </style>

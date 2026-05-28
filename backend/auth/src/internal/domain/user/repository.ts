@@ -46,6 +46,58 @@ export const userRepository = {
         return result.rows[0].id;
     },
 
+    async updateProfile(
+        userId: string,
+        data: {
+            name?: string;
+            bio?: string;
+            email?: string;
+            avatarUrl?: string;
+        },
+    ) {
+        try {
+
+            const fields: string[] = [];
+            const values: unknown[] = [];
+            let idx = 1;
+    
+            if (data.name !== undefined) {
+                fields.push(`name = $${idx++}`);
+                values.push(data.name);
+            }
+            if (data.bio !== undefined) {
+                fields.push(`bio = $${idx++}`);
+                values.push(data.bio);
+            }
+            if (data.email !== undefined) {
+                fields.push(`email = $${idx++}`);
+                values.push(data.email);
+            }
+            if (data.avatarUrl !== undefined) {
+                fields.push(`avatar_url = $${idx++}`);
+                values.push(data.avatarUrl);
+            }
+    
+            if (!fields.length) return false;
+    
+            fields.push(`updated_at = $${idx++}`);
+            values.push(new Date());
+            values.push(userId);
+            console.log(`UPDATE user SET ${fields.join(', ')} WHERE id = $${idx}`)
+    
+            const { rowCount } = await pool.query(
+                `UPDATE "user" SET ${fields.join(', ')} WHERE id = $${idx}`,
+                values,
+            );
+
+    
+            return (rowCount ?? 0) > 0;
+        } catch (ex) {
+            console.log(ex)
+            return false;
+        }
+    },
+
     async findByEmail(email: string) {
         const { rows } = camelcaseKeys(
             await pool.query<UserTableRow>(FIND_BY_EMAIL_QUERY, [email]),

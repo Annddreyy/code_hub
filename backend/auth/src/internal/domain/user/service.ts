@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 import { add } from 'date-fns';
 import { emailAdapter } from '@/internal/infrastructure/email';
-import { ConfirmEmailDto, LoginDto, RegisterDto, ResetPasswordDto } from '@/internal/api/auth/dto';
+import { ConfirmEmailDto, LoginDto, RegisterDto, ResetPasswordDto, UpdateProfileDto } from '@/internal/api/auth/dto';
 import { jwtService, JwtPayload } from '@/pkg/jwt';
 import { logger } from '@/pkg/logger';
 import { User, UserRole } from './user';
@@ -54,12 +54,12 @@ export const userService = {
             logger.error('Ошибка при отправке письма подтверждения:', err);
         }
 
-        return userId; 
+        return userId;
     },
 
     async confirmEmail(dto: ConfirmEmailDto) {
         const user = await userRepository.findByEmail(dto.email);
-        
+
         if (!user) {
             return false;
         }
@@ -169,6 +169,17 @@ export const userService = {
         return userRepository.findById(id);
     },
 
+    async updateProfile(userId: string, dto: UpdateProfileDto) {
+        const user = await userRepository.findById(userId);
+        if (!user) return null;
+
+        const updated = await userRepository.updateProfile(userId, dto);
+        if (!updated) return null;
+
+        return userRepository.findById(userId);
+    },
+
+    // #region Вспомогательные методы
     async _createTokens(user: User, payload: JwtPayload) {
         const accessToken = jwtService.signAccessToken(payload);
         const refreshToken = jwtService.signRefreshToken(payload);
@@ -190,4 +201,5 @@ export const userService = {
     async _generateHash(password: string, salt: string) {
         return bcrypt.hash(password, salt);
     },
+    // #endregion
 };

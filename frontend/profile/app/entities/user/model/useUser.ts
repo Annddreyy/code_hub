@@ -6,11 +6,11 @@ export const useUserStore = defineStore('user', () => {
     const isLoading = ref(false);
     const errorMessage = ref('');
 
-    const getCurrentUser = async () => {
+    const getCurrentUser = async (headers = {}) => {
         isLoading.value = true;
 
         try {
-            user.value = await userApi.getCurrentUser();
+            user.value = await userApi.getCurrentUser(headers);
         } catch (err: unknown) {
             errorMessage.value = err as string;
             return;

@@ -1,5 +1,14 @@
 import { Expose } from 'class-transformer';
-import { IsEmail, IsNotEmpty, IsString, Length, MinLength } from 'class-validator';
+import {
+    IsEmail,
+    IsNotEmpty,
+    IsOptional,
+    IsString,
+    IsUrl,
+    Length,
+    MaxLength,
+    MinLength,
+} from 'class-validator';
 
 export class RegisterDto {
     @Expose()
@@ -65,4 +74,31 @@ export class ResetPasswordDto {
     @IsString({ message: 'Пароль должен быть строкой' })
     @Length(6, 64, { message: 'Длина пароля должны быть от 6 до 64 символов' })
     newPassword: string = '';
+}
+
+export class UpdateProfileDto {
+    @Expose()
+    @IsOptional()
+    @IsString({ message: 'Name должен быть строкой' })
+    @Length(2, 50, { message: 'Name должен быть длиной от 2 до 50 символов' })
+    name?: string;
+
+    @Expose()
+    @IsOptional()
+    @IsString({ message: 'Bio должен быть строкой' })
+    @MaxLength(500, { message: 'Bio должен быть менее 500 символов' })
+    bio?: string;
+
+    @Expose()
+    @IsOptional()
+    @IsString({ message: 'Email должен быть строкой' })
+    @IsEmail({}, { message: 'Email должен быть валижной эл. почтой' })
+    @MaxLength(100, { message: 'Email должен быть менее 100 символов' })
+    email?: string;
+
+    @Expose()
+    @IsOptional()
+    @IsString({ message: 'AvatarUrl должен быть строкой' })
+    @IsUrl({}, { message: 'AvatarUrl должен быть корретной строкой' })
+    avatarUrl?: string;
 }

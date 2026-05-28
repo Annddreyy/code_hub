@@ -8,7 +8,9 @@ import {
     ConfirmEmailDto,
     RequestPasswordResetDto,
     ResetPasswordDto,
+    UpdateProfileDto,
 } from './dto';
+import { logger } from '@/pkg/logger';
 
 export const authRouter = Router();
 
@@ -139,8 +141,34 @@ authRouter.get('/me', authMiddleware, async (req: Request, res: Response) => {
         streak: user.longestStreak,
         xp: user.totalXpEarned,
         avatarUrl: user.avatarUrl,
+        bio: user.bio,
     });
 });
+
+authRouter.patch(
+    '/me',
+    authMiddleware,
+    validateBody(UpdateProfileDto),
+    async (req: RequestWithBody<UpdateProfileDto>, res: Response) => {
+        const user = await userService.updateProfile(req.user!.userId, req.body);
+
+        if (!user) {
+            res.status(404).json({ message: 'Пользователь не найден' });
+            return;
+        }
+
+        res.status(200).json({
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            bio: user.bio,
+            location: user.location,
+            avatarUrl: user.avatarUrl,
+            updatedAt: user.updatedAt,
+        });
+    },
+);
 
 authRouter.post(
     '/request-password-reset',

@@ -171,8 +171,6 @@ useHead({
     title: 'Онбординг',
 });
 
-await experienceLevelApi.getExperienceLevels();
-
 const [experienceLevelsResult, languagesResult, goalsResult] = await Promise.all([
     useAsyncData('experiences', () => experienceLevelApi.getExperienceLevels()),
     useAsyncData('languages', () => languageApi.getLanguages()),

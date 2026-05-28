@@ -5,10 +5,6 @@
             :user
         />
         <div class="profile-section">
-            <Languages
-                v-if="languagesProgress"
-                :languages-progress
-            />
             <RecentActivity
                 v-if="recentActivities"
                 :recent-activities
@@ -22,18 +18,16 @@
 </template>
 
 <script setup lang="ts">
-import { Heatmap, ProfileHero, Languages, RecentActivity } from '@/widgets';
+import { Heatmap, ProfileHero, RecentActivity } from '@/widgets';
 import { userApi, useUserStore } from '@/entities/user';
 
 const { user } = useUserStore();
 
-const [languagesProgressResult, cellsResult, recentActivitiesResult] = await Promise.all([
-    useAsyncData(() => userApi.getLanguagesProgress()),
+const [cellsResult, recentActivitiesResult] = await Promise.all([
     useAsyncData(() => userApi.getHeatmap()),
     useAsyncData(() => userApi.getRecentActivity()),
 ]);
 
-const languagesProgress = languagesProgressResult.data;
 const cells = cellsResult.data;
 const recentActivities = recentActivitiesResult.data;
 
